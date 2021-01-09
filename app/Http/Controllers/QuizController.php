@@ -45,8 +45,14 @@ class QuizController extends Controller
         return redirect()->route('quiz.edit.get', $request->id_quiz); 
     } 
 
+    // Function to display view from analyze quiz
+    public function analyze_get($id) {
+        $quiz = Quiz::find($id);
+        return view('quiz.analyze', compact('quiz')); 
+    } 
+
     // view the quiz in our end result
-    public function preview($id) {
+    public function preview_get($id) {
         $quiz = Quiz::find($id);
         $blocks = array();
 
@@ -66,7 +72,7 @@ class QuizController extends Controller
     }  
 
     // view the content of the quiz with multiple actions to do
-    public function view($id) {
+    public function view_get($id) {
         $quiz = Quiz::find($id);
         return view('quiz.view', compact('quiz')); 
     }  

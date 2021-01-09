@@ -91,15 +91,14 @@
 						<span><span><i class="fa fa-file"></i> {{$quiz->name}}</span>
 					</h6>
 					
-					
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('quiz.view.get', $quiz->id) }}">
 							Blocos e Questoes
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#e" onclick="activaTab('e')" data-toggle="tab">
-							Gerar Relatorio
+						<a class="nav-link" href="{{ route('quiz.analyze.get', $quiz->id) }}">
+							Analisar e Exportar
 						</a>
 					</li>
 					<li class="nav-item">
@@ -121,18 +120,63 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-6">
-					<form method="POST" action="{{ route('quiz.edit.post') }}">
-						@csrf
-						<label>Nome </label>
-						<div class="form-group">
-							<input type="text" name="name" value="{{$quiz->name}}" class="form-control">
-							<input type="hidden" name="id_quiz" value="{{$quiz->id}}">
-						</div>
-						<div class="text-right">
-							<button type="submit" class="btn btn-primary">Atualizar</button>
-						</div>
-					</form>
+				<div class="col-md-8">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col" >#</th>
+								<th scope="col" >Data de Inicio</th>
+								<th scope="col" >Data de Fim</th>
+								<th scope="col" ></th>
+								<th scope="col" ></th>
+								<th scope="col" ></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>21/03/20 - 14:40</td>
+								<td>21/03/20 - 14:40</td>
+								<td>
+									<button type="button" class="btn btn-secondary">CSV</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">XLSM</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">PDF</button>
+								</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>21/03/20 - 14:40</td>
+								<td>21/03/20 - 14:40</td>
+								<td>
+									<button type="button" class="btn btn-secondary">CSV</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">XLSM</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">PDF</button>
+								</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>21/03/20 - 14:40</td>
+								<td>21/03/20 - 14:40</td>
+								<td>
+									<button type="button" class="btn btn-secondary">CSV</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">XLSM</button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-secondary">PDF</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			

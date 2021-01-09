@@ -98,13 +98,15 @@ Route::post('/group/add/user', 'GroupController@add_user')->name('group.add.user
 // Quiz Routes
 //------------------------------------
 #view quiz and can edit them
-Route::get('/quiz/view/{id}', 'QuizController@view')->name('quiz.view.get')->middleware('auth');
+Route::get('/quiz/view/{id}', 'QuizController@view_get')->name('quiz.view.get')->middleware('auth');
 Route::get('/quiz/edit/{id}', 'QuizController@edit_get')->name('quiz.edit.get')->middleware('auth');
+
 #preview form just only show
-Route::get('/quiz/preview/{id}', 'QuizController@preview')->name('quiz.preview.view')->middleware('auth');
+Route::get('/quiz/preview/{id}', 'QuizController@preview_get')->name('quiz.preview.get')->middleware('auth');
 Route::get('/quiz/apply/{id}', 'QuizController@quiz_apply')->name('quiz.apply.get')->middleware('auth');
 Route::get('/quiz/move/{id}/{id_group}', 'QuizController@move')->name('quiz.move')->middleware('auth');
-Route::get('/quiz/preview/{id}', 'QuizController@preview')->name('quiz.preview')->middleware('auth');
+#generate and process data from quiz
+Route::get('/quiz/analyze/{id}', 'QuizController@analyze_get')->name('quiz.analyze.get')->middleware('auth');
 
 
 Route::post('/quiz/changestatus', 'QuizController@changestatus')->name('quiz.changestatus.post')->middleware('auth');

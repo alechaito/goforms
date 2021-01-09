@@ -135,7 +135,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 text-right">
-					<a href="{{route('quiz.preview', $quiz->id)}}">
+					<a href="{{route('quiz.preview.get', $quiz->id)}}">
 						<button type="submit" class="btn btn-secondary">Pre-Visualizar</button>
 					</a>
 					<a href="#" data-toggle="modal" data-target="#modal-create-block">
