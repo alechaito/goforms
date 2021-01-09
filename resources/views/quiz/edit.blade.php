@@ -29,7 +29,7 @@
 </head>
 <body>
 <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color:#58B19F;">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CIF Easy</a>
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">GOForms</a>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="{{route('logout')}}">Logout</a>
@@ -56,7 +56,7 @@
 					<div class="collapse" id="collapse-groups">
 						@foreach($groups as $group)
 							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
+								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
 									{{$group->name}}
 								</a>
 							</li>
@@ -78,7 +78,7 @@
 									$block = $block_model::find($index_block);
 								@endphp
 								<li class="nav-item">
-									<a class="nav-link" href="{{ route('block.edit.view', $block->id) }}">
+									<a class="nav-link" href="{{ route('block.view.get', $block->id) }}">
 										<span data-feather="home"></span>
 										{{$block->name}}
 									</a>
@@ -115,7 +115,7 @@
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h2 class="h2">
-					{{$quiz->name}}
+					Editar Questionario
 					<a href="{{ url()->previous() }}" class="btn btn-secondary">Voltar</a>
 				</h2>
 			</div>

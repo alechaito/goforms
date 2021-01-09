@@ -15,9 +15,14 @@ use Auth;
 
 class QuestionController extends Controller
 {
+    // view the content of the quiz with multiple actions to do
+    public function create_get($id) {
+        $block = Block::find($id);
+        return view('question.create', compact('block')); 
+    }  
 
     // Questions
-    public function create(Request $request) {
+    public function create_post(Request $request) {
         $question = new Question();
         $question->id_block = $request->id_block;
         $question->question = $request->question;

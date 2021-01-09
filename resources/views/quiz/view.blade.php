@@ -56,7 +56,7 @@
 					<div class="collapse" id="collapse-groups">
 						@foreach($groups as $group)
 							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
+								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
 									{{$group->name}}
 								</a>
 							</li>
@@ -78,7 +78,7 @@
 									$block = $block_model::find($index_block);
 								@endphp
 								<li class="nav-item">
-									<a class="nav-link" href="{{ route('block.edit.view', $block->id) }}">
+									<a class="nav-link" href="{{ route('block.view.get', $block->id) }}">
 										<span data-feather="home"></span>
 										{{$block->name}}
 									</a>
@@ -161,7 +161,7 @@
 							<div class="row">
 								<div class="col-md-6">
 										<input class="delete-block" type="checkbox" value="{{$block->id}}">
-										<a href="{{ route('block.edit.view', $block->id) }}">
+										<a href="{{ route('block.view.get', $block->id) }}">
 											{{$block->name}} <i class="fa fa-eye"></i>
 										</a>
 									
@@ -196,9 +196,11 @@
 									
 
 									
-									<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#modal-create-question">
-										<i class="fa fa-plus"></i> Nova questao
-									</button>
+									<a href="{{ route('question.create.get', $block->id) }}">
+										<button type="button" class="btn btn-secondary">
+											Adicionar Questao
+										</button>
+									</a>
 									
 								</div>
 								

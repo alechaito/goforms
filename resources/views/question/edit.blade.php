@@ -39,92 +39,50 @@
 			</div>
 		</nav>
 
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h1 class="h2">
-				Editar Questao
-				<a href="{{ url()->previous() }}" class="btn btn-secondary">Voltar</a>
-			</h1>
-		</div>
-
-		 <ul class="nav nav-tabs">
-			<li class="nav-item">
-				<a href="#a" class="nav-link" data-toggle="tab">Atualizar</a>
-			</li>
-		</ul>
-
-		<div class="tab-content" id="tabs">
-		</br>
-			<div class="tab-pane" id="a">
-				<div class="row">
-					<div class="col-md-6">
-						<form method="POST" action="{{ route('question.edit.post') }}">
-							@csrf
-							<label>Texto da Questao</label>
-							<div class="form-group">
-								<textarea class="form-control" name="question" rows="4" cols="50">{{$question->question}}</textarea>
-								<input type="hidden" name="id_question" value="{{$question->id}}"/>
-								<input type="hidden" name="id_block" value="{{$block->id}}"/>
-							</div>
-							<div class="form-group">
-								@php
-									$blocks_quiz = DB::table('blocks')->where('id_quiz', '=', $block->id_quiz)->get();
-								@endphp
-								<label>Bloco da Questao </label>
-								<select class="form-control" name="id_block">
-									@foreach($blocks_quiz as $obj)
-										@if($obj->id == $block->id)
-											<option value="{{$obj->id}}" selected>{{$obj->name}}</option>
-										@else
-											<option value="{{$obj->id}}">{{$obj->name}}</option>
-										
-										@endif
-									@endforeach
-								</select>
-							</div>
-							<div class="form-group text-left">
-								<button type="submit" class="btn btn-primary">Atualizar</button>
-							</div>
-						</form>
-					</div>
-				</div>
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">
+					Editar Questao
+					<a href="{{ url()->previous() }}" class="btn btn-secondary">Voltar</a>
+				</h1>
 			</div>
-
-			<div class="tab-pane" id="b">
-				<div class="row">
-					<div class="col-md-6">
-						<label>Entrada </label>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<form method="POST" action="{{ route('question.edit.post') }}">
+						@csrf
+						<label>Texto da Questao</label>
 						<div class="form-group">
-							<input type="text" class="form-control">
+							<textarea class="form-control" name="question" rows="4" cols="50">{{$question->question}}</textarea>
+							<input type="hidden" name="id_question" value="{{$question->id}}"/>
+							<input type="hidden" name="id_block" value="{{$block->id}}"/>
 						</div>
-						<label>Leva Para </label>
 						<div class="form-group">
-							<select class="form-control">
-								<option value="" selected>Nenhum</option>
-								<option value="saab">A2</option>
-								<option value="saab">A3</option>
-								<option value="saab">A4</option>
+							@php
+								$blocks_quiz = DB::table('blocks')->where('id_quiz', '=', $block->id_quiz)->get();
+							@endphp
+							<label>Bloco da Questao </label>
+							<select class="form-control" name="id_block">
+								@foreach($blocks_quiz as $obj)
+									@if($obj->id == $block->id)
+										<option value="{{$obj->id}}" selected>{{$obj->name}}</option>
+									@else
+										<option value="{{$obj->id}}">{{$obj->name}}</option>
+									
+									@endif
+								@endforeach
 							</select>
 						</div>
-						<div class="form-group text-right">
-							<button type="submit" class="btn btn-primary">Criar</button>
+						<div class="form-group text-left">
+							<button type="submit" class="btn btn-primary">Atualizar</button>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
-		</div>
-	</main>
-  </div>
+		</main>
+  	</div>
 </div>
 
-<script>
-
-function activaTab(tab){
-    $('.nav-item a[href="#' + tab + '"]').tab('show');
-};
-activaTab('a');
-
-</script>
 
 </body>
 </html>

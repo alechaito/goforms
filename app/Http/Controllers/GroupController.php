@@ -31,6 +31,11 @@ class GroupController extends Controller
         return redirect()->back();    
     }
 
+    public function participants_get($id) {
+        $group = Group::find($id);
+        return view('group.participants', compact('group')); 
+    }  
+
     public function edit(Request $request) {
         
         $group = Group::find($request->id_group);
@@ -41,9 +46,9 @@ class GroupController extends Controller
         return redirect()->back();    
     }
 
-    public function preview($id) {
+    public function view_get($id) {
         $group = Group::find($id);
-        return view('group.preview', compact('group')); 
+        return view('group.view', compact('group')); 
     }  
 
     public function delete($id) {

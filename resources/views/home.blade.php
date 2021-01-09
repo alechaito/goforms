@@ -59,7 +59,7 @@
 					<div class="collapse" id="collapse-groups">
 						@foreach($groups as $group)
 							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
+								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
 									{{$group->name}}
 								</a>
 							</li>
@@ -130,7 +130,7 @@
 							<tr>
 								<td><input type="checkbox" value="{{$group->id}}" class="delete-group"></td>
 								<td>
-									<a href="{{ route('group.preview.view', $group->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar">
+									<a href="{{ route('group.view.get', $group->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar">
 										{{$group->name}} <i class="fa fa-eye"></i>
 									</a>
 									<ul>

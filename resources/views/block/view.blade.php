@@ -53,7 +53,7 @@
 					<div class="collapse" id="collapse-groups">
 						@foreach($groups as $group)
 							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
+								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
 									{{$group->name}}
 								</a>
 							</li>
@@ -84,7 +84,7 @@
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<h1 class="h2">
 				{{$block->name}} 
-				<a href="{{ route('quiz.edit.view', [$block->id_quiz, 'view']) }}" class="btn btn-secondary">Voltar</a>
+				<a href="{{ route('quiz.view.get', $block->id_quiz) }}" class="btn btn-secondary">Voltar</a>
 			</h1>
 		</div>
 
@@ -114,19 +114,12 @@
 				<div class="row" style="margin-bottom:16px;">
 					<div class="col-md-12 text-right">
 						
-						<div class="btn-group">
-							<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+						<a href="{{ route('question.create.get', $block->id) }}">
+							<button type="button" class="btn btn-secondary">
 								Adicionar Questao
 							</button>
-							<div class="dropdown-menu dropdown-menu-lg-right">
-								<button class="dropdown-item" type="button" data-toggle="modal" data-target="#modal-create-question">
-									<i class="fa fa-plus"></i> uma nova questao
-								</button>
-								<button class="dropdown-item" type="button" data-toggle="modal" data-target="#modal-storequestion">
-									<i class="fa fa-plus"></i> do banco de questoes
-								</button>
-							</div>
-						</div>
+						</a>
+						
 					</div>
 				</div>
 
@@ -296,136 +289,6 @@
 			</div>
 		</div>
 
-		
-
-		<!-- Modal Create Question -->
-		<div class="modal fade" id="modal-create-question" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Texto da Questao</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-3">
-							<h6>Questoes</h6>
-							<hr>
-							<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-								<a class="nav-link active" id="v-pills-a-tab" data-toggle="pill" href="#v-pills-a" role="tab" aria-controls="v-pills-a" aria-selected="true">Resposta curta</a>
-								<a class="nav-link" id="v-pills-b-tab" data-toggle="pill" href="#v-pills-b" role="tab" aria-controls="v-pills-b" aria-selected="false">Multipla escolha</a>
-								<a class="nav-link" id="v-pills-c-tab" data-toggle="pill" href="#v-pills-c" role="tab" aria-controls="v-pills-c" aria-selected="false">Numerico</a>
-								<a class="nav-link" id="v-pills-d-tab" data-toggle="pill" href="#v-pills-d" role="tab" aria-controls="v-pills-d" aria-selected="false">Sim/Nao</a>
-							</div>
-						</div>
-						<div class="col-md-9">
-						  <div class="tab-content" id="v-pills-tabContent">
-							<div class="tab-pane fade show active" id="v-pills-a" role="tabpanel" aria-labelledby="v-pills-a-tab">
-								<div class="alert alert-info" role="alert">
-									Permite uma resposta de uma ou de poucas palavras.
-								</div>
-								<form method="POST" action="{{ route('question.create.post') }}">
-									@csrf
-									<div class="form-group">
-										<label>Texto da Questao </label>
-										<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
-									</div>
-									<input type="hidden" name="type" value="1"/>
-									<div class="form-group">
-										<label>Adicionar no Bloco </label>
-										<select class="form-control" name="id_block">
-											<option value="{{$block->id}}">{{$block->name}}</option>
-										</select>
-									</div>
-									<div class="form-group text-right">
-										<button type="submit" class="btn btn-primary">Adicionar</button>
-									</div>
-								</form>
-							</div>
-							<div class="tab-pane fade" id="v-pills-b" role="tabpanel" aria-labelledby="v-pills-b-tab">
-								<div class="alert alert-info" role="alert">
-									Permite a seleção de simples ou múltiplas respostas de uma lista pré definida.
-								</div>
-								<form method="POST" action="{{ route('question.create.post') }}">
-									@csrf
-									<div class="form-group">
-										<label>Texto da Questao </label>
-										<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
-									</div>
-									<label>Opcoes (separado por virgula) </label>
-									<div class="form-group">
-										<input type="text" name="choices" placeholder="leve, moderado, grave" class="form-control">
-									</div>
-									<input type="hidden" name="type" value="2"/>
-									<div class="form-group">
-										<label>Adicionar no Bloco </label>
-										<select class="form-control" name="id_block">			
-											<option value="{{$block->id}}">{{$block->name}}</option>
-										</select>
-									</div>
-									<div class="form-group text-right">
-										<button type="submit" class="btn btn-primary">Adicionar</button>
-									</div>
-								</form>
-							</div>
-							<div class="tab-pane fade" id="v-pills-c" role="tabpanel" aria-labelledby="v-pills-c-tab">
-								<div class="alert alert-info" role="alert">
-									Permite uma resposta numérica.
-								</div>
-								<form method="POST" action="{{ route('question.create.post') }}">
-									@csrf
-									<div class="form-group">
-										<label>Texto da Questao </label>
-										<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
-									</div>
-									<input type="hidden" name="type" value="3"/>
-									<div class="form-group">
-										<label>Adicionar no Bloco </label>
-										<select class="form-control" name="id_block">				
-											<option value="{{$block->id}}">{{$block->name}}</option>
-										</select>
-									</div>
-									<div class="form-group text-right">
-										<button type="submit" class="btn btn-primary">Adicionar</button>
-									</div>
-								</form>
-							</div>
-							<div class="tab-pane fade" id="v-pills-d" role="tabpanel" aria-labelledby="v-pills-d-tab">
-								<div class="alert alert-info" role="alert">
-									Uma questao simples de multipla escolha com apenas duas opcoes "sim" ou "nao".
-								</div>
-								<form method="POST" action="{{ route('question.create.post') }}">
-									@csrf
-									<div class="form-group">
-										<label>Texto da Questao </label>
-										<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
-									</div>
-									<input type="hidden" name="type" value="4"/>
-									<div class="form-group">
-										<label>Adicionar no Bloco </label>
-										<select class="form-control" name="id_block">
-											<option value="{{$block->id}}">{{$block->name}}</option>			
-										</select>
-									</div>
-									<div class="form-group text-right">
-										<button type="submit" class="btn btn-primary">Adicionar</button>
-									</div>
-								</form>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-				</div>
-			</div>
-			</div>
-		</div>
-		<!-- Modal Create Question -->
-
     </main>
   </div>
 </div>
@@ -440,30 +303,6 @@ $('#select-all').click(function () {
 	$('input:checkbox').prop('checked', true);    
 });
 
-function move(data) {
-	if(confirm('Tem certeza que deseja mover as questoes selecionadas para o banco de questoes?')) {
-		var checkeds = $('.delete-question:checkbox:checked');
-		for (var i = 0; i < checkeds.length; i++) {
-			console.log(checkeds[i].value);
-			$.get("http://"+window.location.hostname+"/question/move/"+checkeds[i].value, function(data, status){
-				console.log(status);
-				console.log(data);
-				return true;
-			});
-		}
-	}
-}
-
-$('#move-all-storequestion').click(function () {    
-	var checkeds = $('.move-storequestion:checkbox:checked');
-	var i;
-	var ids = "";
-	for (i = 0; i < checkeds.length; i++) {
-		ids += checkeds[i].value + "-";
-		id_block = checkeds[i].id;
-	}
-	window.location.replace("/storequestion/moveall/"+ids+"/"+id_block);
-});
 	 
 $('#delete-all').click(function () {    
 	var checkeds = $('.delete-question:checkbox:checked');
@@ -476,22 +315,6 @@ $('#delete-all').click(function () {
 		//fetch("/question/deleteall/"+ids);
 		window.location.replace("/question/deleteall/"+ids);
 	}
-});
-
-$(document).ready(function() {
-	var table2 = $('#display-storequestions-include');
-	console.log(table2);
-    var table = $('#display-storequestions-include').DataTable( {
-        "ajax": "/search-storequestion/block/{{$block->id}}",
-		"language": {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese.json",
-			"search": 'a',
-			"searchPlaceholder": "Digite uma palavra chave..."
-        },
-		"dom": "<'row'<'col-md-9'f><'col-md-3'>>" +
-				"<'row'<'col-sm-12'tr>>" +
-				"<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
-    });
 });
 
 </script>

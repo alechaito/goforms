@@ -111,131 +111,35 @@
 			<h1 class="h2"> {{$group->name}}
 		</div>
 
-		<div class="tab-content" id="tabs">
-		</br>
-			<div class="tab-pane" id="a">
-				<div class="row" style="margin-bottom:16px;">
-					<div class="col-md-12">
-						<div class="text-right">
-							<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modal-create-quiz">Novo Questionario</button>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-md-12">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th scope="col">
-									</th>
-									<th scope="col">Nome</th>
-									<th scope="col">Estado</th>
-									<th scope="col">Acoes</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach($quizzes_group as $quiz)
-								<tr>
-									<td><input class="delete-quiz" type="checkbox" value="{{$quiz->id}}"></td>
-									<td>
-										<a href="{{ route('quiz.edit.view', [$quiz->id, 'view']) }}">
-											{{$quiz->name}} <i class="fa fa-eye"></i>
-										</a>
-										<ul>
-											@if($quiz->block_index != NULL)
-												@php
-													$indexes_block = explode(',', $quiz->block_index);
-												@endphp
-												@foreach($indexes_block as $index_block)
-													@php
-														$block = $block_model::find($index_block);
-													@endphp
-													<li style="color:#6c757d;"> 
-													<a href="{{ route('block.edit.view', $block->id) }}">
-														{{$block->name}}
-													</li>
-												@endforeach
-											@endif
-										</ul>
-									</td>
-									<td>Fechado</td>
-									<td>
-										<a href="{{ route('quiz.preview', $quiz->id) }}" style="text-decoration: none;">
-											<i class="fa fa-search"></i>
-										</a>
-										<form id="quiz-delete-{{$quiz->id}}" style="display:inline;" method="POST" action="{{ route('quiz.delete.post') }}">
-											@csrf
-											<input type="hidden" name="id_quiz" value="{{$quiz->id}}"/>
-											<input type="hidden" name="id_group" value="{{$group->id}}"/>
-											<a href="#" onclick="document.getElementById('quiz-delete-{{$quiz->id}}').submit();">
-												<i class="fa fa-times"></i>
-											</a>
-										</form>
-
-									</td>
-								</tr>
-								@endforeach
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<button id="select-all" type="button" class="btn btn-secondary">Selecionar Todos Questionarios</button>	
-					</div>
-				</div>
-				</br>
-
-				<div class="row">
-					<div class="col-md-12">
-						<b>Com os selecionados:</b></br>
-						<button id="delete-all" type="button" class="btn btn-danger">Apagar</button>
-						
-						<!--<button onclick="move(this)" type="button" class="btn btn-secondary">Mover para >></button>	
-						<select style="width:100px;">
-							@foreach($groups as $d)
-								<option class="group-value" value="{{$d->id}}">{{$d->name}}</option>
-							@endforeach
-						</select> -->
-					</div>
-				</div>
-				</br>
+		<div class="row">
+			<div class="col-md-12">
+				<form>
+					<p class="text-right">
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal-user">
+							Adicionar Participante
+						</button>
+					</p>
+					
+				</form>
 			</div>
-
-			<div class="tab-pane" id="c">
-				<div class="row">
-					<div class="col-md-12">
-						<form>
-							<p class="text-right">
-								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal-user">
-									Adicionar Participante
-								</button>
-							</p>
-							
-						</form>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<table id="display-participants" class="table table-striped" style="width:100%">
-							<thead>
-								<tr>
-									<th width="50%">Nome</th>
-									<th width="40%">Papel</th>
-									<th>Acoes</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-
-			</div>
-
 		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table id="display-participants" class="table table-striped" style="width:100%">
+					<thead>
+						<tr>
+							<th width="50%">Nome</th>
+							<th width="40%">Papel</th>
+							<th>Acoes</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+
 
 		<!-- Modal Display Users to Include -->
 		<div class="modal fade" id="modal-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

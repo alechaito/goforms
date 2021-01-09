@@ -85,10 +85,11 @@ class BlockController extends Controller
         return view('block.preview', compact('block')); 
     } 
 
-    public function edit($id) {
+    // View block and many actions included
+    public function view_get($id) {
         $block = Block::find($id);
         $questions = Question::where('id_block', $id)->get();
-        return view('block.edit', compact('block', 'questions')); 
+        return view('block.view', compact('block', 'questions')); 
     } 
 
     public function preview_block_question($id_block, $id_question) {
