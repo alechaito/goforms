@@ -31,13 +31,21 @@ class QuizController extends Controller
         return redirect()->route('group.preview.view', [$request->id_group, 'quizzes']); 
     }
 
-    public function update(Request $request) {
+    // Function to display view from edit quiz
+    public function edit_get($id) {
+        $quiz = Quiz::find($id);
+        return view('quiz.edit', compact('quiz')); 
+    } 
+
+    // Function to edit settings of a quiz
+    public function edit_post(Request $request) {
         $quiz = Quiz::find($request->id_quiz);
         $quiz->name = $request->name;
         $quiz->save();
-        return redirect()->route('quiz.edit.view', $request->id_quiz); 
+        return redirect()->route('quiz.edit.get', $request->id_quiz); 
     } 
 
+    // view the quiz in our end result
     public function preview($id) {
         $quiz = Quiz::find($id);
         $blocks = array();
@@ -57,9 +65,10 @@ class QuizController extends Controller
         return view('quiz.preview', compact('quiz', 'blocks')); 
     }  
 
-    public function edit($id, $tab) {
+    // view the content of the quiz with multiple actions to do
+    public function view($id) {
         $quiz = Quiz::find($id);
-        return view('quiz.edit', compact('quiz', 'tab')); 
+        return view('quiz.view', compact('quiz')); 
     }  
 
     public function changestatus(Request $request) {

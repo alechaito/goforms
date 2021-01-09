@@ -95,7 +95,7 @@ class BlockController extends Controller
         $block = Block::find($id_block);
         $question = Question::find($id_question);
         return view('block.preview', compact('block', 'question')); 
-    } 
+    }
 
     public function update_index(Request $request) {
         $quiz = Quiz::find($request->id_quiz);
@@ -127,9 +127,11 @@ class BlockController extends Controller
             }
         }
 
+        // updating quiz where the block indexes are stored to change order
         DB::table('quizzes')
                 ->where('id', $quiz->id)
                 ->update(['block_index' => implode(",", $indexes)]); 
+
         return redirect()->route('quiz.edit.view', $quiz->id); 
         
     }

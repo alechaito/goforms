@@ -97,15 +97,19 @@ Route::post('/group/add/user', 'GroupController@add_user')->name('group.add.user
 //--------------------------------------
 // Quiz Routes
 //------------------------------------
-Route::get('/quiz/edit/{id}/{tab}', 'QuizController@edit')->name('quiz.edit.view')->middleware('auth');
+#view quiz and can edit them
+Route::get('/quiz/view/{id}', 'QuizController@view')->name('quiz.view.get')->middleware('auth');
+Route::get('/quiz/edit/{id}', 'QuizController@edit_get')->name('quiz.edit.get')->middleware('auth');
+#preview form just only show
 Route::get('/quiz/preview/{id}', 'QuizController@preview')->name('quiz.preview.view')->middleware('auth');
 Route::get('/quiz/apply/{id}', 'QuizController@quiz_apply')->name('quiz.apply.get')->middleware('auth');
 Route::get('/quiz/move/{id}/{id_group}', 'QuizController@move')->name('quiz.move')->middleware('auth');
 Route::get('/quiz/preview/{id}', 'QuizController@preview')->name('quiz.preview')->middleware('auth');
 
+
 Route::post('/quiz/changestatus', 'QuizController@changestatus')->name('quiz.changestatus.post')->middleware('auth');
 Route::post('/quiz/create', 'QuizController@create')->name('quiz.create.post');
-Route::post('/quiz/update', 'QuizController@update')->name('quiz.update.post');
+Route::post('/quiz/edit', 'QuizController@edit_post')->name('quiz.edit.post');
 Route::post('/quiz/delete', 'QuizController@delete')->name('quiz.delete.post');
 //Route::post('/quiz/preview', 'QuizController@preview')->name('quiz.preview.post')->middleware('auth');
 //--------------------------------------
@@ -117,7 +121,7 @@ Route::get('/block/edit/{id}', 'BlockController@edit')->name('block.edit.view')-
 Route::get('/block/delete/{id}', 'BlockController@delete')->name('block.delete')->middleware('auth');
 Route::get('/block/deleteall/{ids}', 'BlockController@delete_all')->name('block.deleteall')->middleware('auth');
 
-Route::post('/block/edit', 'BlockController@update_index')->name('block.update.post')->middleware('auth');
+Route::post('/block/update/index', 'BlockController@update_index')->name('block.update.index')->middleware('auth');
 Route::post('/block/updatename', 'BlockController@update_name')->name('block.updatename.post')->middleware('auth');
 Route::post('/block/create', 'BlockController@create')->name('block.create.post')->middleware('auth');
 //--------------------------------------

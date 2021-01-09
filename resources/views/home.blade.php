@@ -32,7 +32,7 @@
 </head>
 <body>
 <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color:#58B19F;">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CIF Easy</a>
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">GOForms</a>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="{{route('logout')}}">Logout</a>
@@ -72,31 +72,6 @@
 					<li class="nav-item">
 						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create')}}">
 							Paciente
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('teacher.create')}}">
-							Professor
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('student.create')}}">
-							Aluno
-						</a>
-					</li>
-	
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span> <i class="fa fa-question-circle"></i> Banco de Questoes</span>
-					</h6>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('storequestion.view')}}">
-							<span data-feather="home"></span>
-							Questoes
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('storequestion.category.view')}}">
-							Categorias
 						</a>
 					</li>
 
@@ -161,10 +136,10 @@
 									<ul>
 										@foreach($quizzes as $quiz)
 											<li style="color:#6c757d;">
-												<a href="{{ route('quiz.edit.view', [$quiz->id, 'view']) }}">
+												<a href="{{ route('quiz.view.get', $quiz->id) }}">
 													{{$quiz->name}} <i class="fa fa-eye"></i>
 												</a>
-												<a href="{{ route('quiz.edit.view', [$quiz->id, 'edit']) }}">
+												<a href="{{ route('quiz.edit.get', $quiz->id) }}">
 													<i class="fa fa-cog"></i>
 												</a>
 											 </li>
