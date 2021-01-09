@@ -80,7 +80,15 @@ Route::post('/patient/create', 'PatientController@create')->name('patient.create
 //--------------------------------------
 // Group Routes
 //------------------------------------
-Route::get('/group/preview/{id}', 'GroupController@preview')->name('group.preview.view')->middleware('auth');
+Route::prefix('group')->group(function () {
+    //get routes
+    Route::get('/participants/{id}', 'GroupController@participants_get')->name('group.participants.get')->middleware('auth');
+    Route::get('/view/{id}', 'GroupController@view_get')->name('group.view.get')->middleware('auth');
+
+    //post routes
+});
+
+//Route::get('/group/view/{id}', 'GroupController@preview')->name('group.preview.view')->middleware('auth');
 Route::get('/search-user', 'GroupController@search_user');
 Route::get('/search-participants/add/{id_group}', 'GroupController@search_participants_add');
 Route::get('/search-participants/{id_group}', 'GroupController@search_participants');
@@ -98,28 +106,38 @@ Route::post('/group/add/user', 'GroupController@add_user')->name('group.add.user
 // Quiz Routes
 //------------------------------------
 #view quiz and can edit them
-Route::get('/quiz/view/{id}', 'QuizController@view_get')->name('quiz.view.get')->middleware('auth');
-Route::get('/quiz/edit/{id}', 'QuizController@edit_get')->name('quiz.edit.get')->middleware('auth');
+Route::prefix('quiz')->group(function () {
+    Route::get('/view/{id}', 'QuizController@view_get')->name('quiz.view.get')->middleware('auth');
+    Route::get('/edit/{id}', 'QuizController@edit_get')->name('quiz.edit.get')->middleware('auth');
 
-#preview form just only show
-Route::get('/quiz/preview/{id}', 'QuizController@preview_get')->name('quiz.preview.get')->middleware('auth');
-Route::get('/quiz/apply/{id}', 'QuizController@quiz_apply')->name('quiz.apply.get')->middleware('auth');
-Route::get('/quiz/move/{id}/{id_group}', 'QuizController@move')->name('quiz.move')->middleware('auth');
-#generate and process data from quiz
-Route::get('/quiz/analyze/{id}', 'QuizController@analyze_get')->name('quiz.analyze.get')->middleware('auth');
+    #preview form just only show
+    Route::get('/preview/{id}', 'QuizController@preview_get')->name('quiz.preview.get')->middleware('auth');
+    Route::get('/apply/{id}', 'QuizController@quiz_apply')->name('quiz.apply.get')->middleware('auth');
+    Route::get('/move/{id}/{id_group}', 'QuizController@move')->name('quiz.move')->middleware('auth');
+    #generate and process data from quiz
+    Route::get('/analyze/{id}', 'QuizController@analyze_get')->name('quiz.analyze.get')->middleware('auth');
 
 
-Route::post('/quiz/changestatus', 'QuizController@changestatus')->name('quiz.changestatus.post')->middleware('auth');
-Route::post('/quiz/create', 'QuizController@create')->name('quiz.create.post');
-Route::post('/quiz/edit', 'QuizController@edit_post')->name('quiz.edit.post');
-Route::post('/quiz/delete', 'QuizController@delete')->name('quiz.delete.post');
+    Route::post('/changestatus', 'QuizController@changestatus')->name('quiz.changestatus.post')->middleware('auth');
+    Route::post('/create', 'QuizController@create')->name('quiz.create.post');
+    Route::post('edit', 'QuizController@edit_post')->name('quiz.edit.post');
+    Route::post('delete', 'QuizController@delete')->name('quiz.delete.post');
+});
 //Route::post('/quiz/preview', 'QuizController@preview')->name('quiz.preview.post')->middleware('auth');
 //--------------------------------------
 // Block Routes
 //------------------------------------
-Route::get('/block/preview/{id}', 'BlockController@preview')->name('block.preview.view')->middleware('auth');
-Route::get('/block/preview/{id_block}/{id_question}', 'BlockController@preview_question')->name('block.preview.question.view')->middleware('auth');
-Route::get('/block/edit/{id}', 'BlockController@edit')->name('block.edit.view')->middleware('auth');
+Route::prefix('block')->group(function () {
+    //get routes
+    Route::get('/preview/{id}', 'BlockController@preview')->name('block.preview.view')->middleware('auth');
+    Route::get('/view/{id}', 'BlockController@view_get')->name('block.view.get')->middleware('auth');
+
+
+    //post routes
+});
+//Route::get('/block/preview/{id}', 'BlockController@preview')->name('block.preview.view')->middleware('auth');
+//Route::get('/block/preview/{id_block}/{id_question}', 'BlockController@preview_question')->name('block.preview.question.view')->middleware('auth');
+//Route::get('/block/edit/{id}', 'BlockController@edit')->name('block.edit.view')->middleware('auth');
 Route::get('/block/delete/{id}', 'BlockController@delete')->name('block.delete')->middleware('auth');
 Route::get('/block/deleteall/{ids}', 'BlockController@delete_all')->name('block.deleteall')->middleware('auth');
 
@@ -129,6 +147,14 @@ Route::post('/block/create', 'BlockController@create')->name('block.create.post'
 //--------------------------------------
 // Question Routes
 //------------------------------------
+Route::prefix('question')->group(function () {
+    //get routes
+    Route::get('/create/{id}', 'QuestionController@create_get')->name('question.create.get')->middleware('auth');
+    
+    //post routes
+    Route::post('/create', 'QuestionController@create_post')->name('question.create.post')->middleware('auth');
+});
+
 Route::get('/question/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
 Route::get('/question/preview/{id}', 'QuestionController@preview')->name('question.preview')->middleware('auth');
 Route::get('/question/edit/{id}', 'QuestionController@edit')->name('question.edit')->middleware('auth');
@@ -136,13 +162,13 @@ Route::get('/question/move/{id}', 'QuestionController@move')->name('question.mov
 Route::get('/question/delete/{id}', 'QuestionController@delete')->name('question.delete')->middleware('auth');
 Route::get('/question/deleteall/{id}', 'QuestionController@delete_all')->name('question.deleteall')->middleware('auth');
 Route::get('/question/update/index/{id_question}/{type}', 'QuestionController@update_index')->name('question.index.update')->middleware('auth');
+Route::get('/question/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
 
-Route::post('/question/create', 'QuestionController@create')->name('question.create.post')->middleware('auth');
 Route::post('/question/edit/post', 'QuestionController@edit_post')->name('question.edit.post')->middleware('auth');
 //--------------------------------------
 //Store Question Routes
 //------------------------------------
-Route::get('/search-storequestion', 'StoreQuestionController@search_storequestion');
+/*Route::get('/search-storequestion', 'StoreQuestionController@search_storequestion');
 Route::get('/search-storequestion/block/{id_block}', 'StoreQuestionController@search_storequestion_block');
 Route::get('/search-categories', 'StoreQuestionController@search_categories');
 Route::get('/storequestion/delete/{id}', 'StoreQuestionController@delete')->name('storequestion.delete')->middleware('auth');
@@ -158,5 +184,6 @@ Route::get('/storequestion/moveall/{ids}/{id_block}', 'StoreQuestionController@m
 Route::post('/storequestion/create', 'StoreQuestionController@create')->name('storequestion.create.post')->middleware('auth');
 Route::post('/storequestion/create/category', 'StoreQuestionController@create_category')->name('storequestion.category.create')->middleware('auth');
 Route::post('/storequestion/edit/', 'StoreQuestionController@edit_post')->name('storequestion.edit.post')->middleware('auth');
+*/
 // AUthenticated routhes
 Auth::routes();
