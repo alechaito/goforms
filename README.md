@@ -14,9 +14,6 @@ Este projeto pretende auxiliar pesquisas de campo e coleta de dados, criando for
         * Inserir [x]
         * Editar [x]
         * Excluir [x]
-        *Participantes
-            * Inserir [ ]
-            * Excluir [ ]
     * Questionarios
         * Inserir [x]
         * Editar [x]
@@ -39,6 +36,9 @@ Este projeto pretende auxiliar pesquisas de campo e coleta de dados, criando for
     * Inserir [ ]
     * Excluir [ ]
     * Buscar [ ]
+* Participantes
+    * Inserir [ ]
+    * Excluir [ ]
 
 
 
