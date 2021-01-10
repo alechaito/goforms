@@ -25,7 +25,7 @@ class GroupController extends Controller
         Role 2 - patient
         */
         DB::table('group_participants')->insert(
-            ['id_group' => $group->id, 'id_participant' => $group->id_user, 'role' => Auth::User()->role]
+            ['id_group' => $group->id, 'id_participant' => $group->id_user, 'level' => Auth::User()->role]
         );
 
         return redirect()->back();    
@@ -51,14 +51,16 @@ class GroupController extends Controller
         return view('group.view', compact('group')); 
     }  
 
-    public function delete($id) {
+    // delete group and our content
+    public function delete_get($id) {
+        // finally delete group
         $group = Group::find($id);
-        if($group == NULL) {
-            redirect()->back();
-        }
         $group->delete();
+
+        // find group participants and delete
         DB::table('group_participants')->where('id_group', $id)->delete();
-        return redirect()->back();
+
+        //return redirect()->back();
     }
 
     public function delete_all($ids) {

@@ -70,7 +70,7 @@
 						<span> <i class="fa fa-user-plus"></i> Cadastrar</span>
 					</h6>
 					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create')}}">
+						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create.get')}}">
 							Paciente
 						</a>
 					</li>

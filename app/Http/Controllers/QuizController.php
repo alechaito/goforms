@@ -22,13 +22,13 @@ class QuizController extends Controller
         $quiz->id_group = $request->id_group;
         $quiz->name = $request->name;
         $quiz->save();
-        return redirect()->route('group.preview.view', [$request->id_group, 'quizzes']);     
+        return redirect()->route('group.view.get', $request->id_group);     
     }   
 
     public function delete(Request $request) {
         $quiz = Quiz::find($request->id_quiz);
         $quiz->delete();
-        return redirect()->route('group.preview.view', [$request->id_group, 'quizzes']); 
+        return redirect()->route('group.view.get', $request->id_group); 
     }
 
     // Function to display view from edit quiz
@@ -81,7 +81,7 @@ class QuizController extends Controller
         $quiz = Quiz::find($request->id_quiz);
         $quiz->status = $request->status;
         $quiz->save();
-        return redirect()->route('quiz.edit.view', $request->id_quiz); 
+        return redirect()->route('quiz.view.get', $request->id_quiz); 
     }
 
     public function quiz_apply($id) {

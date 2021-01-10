@@ -53,7 +53,7 @@
 					</h6>
 					@foreach($groups as $group)
 						<li class="nav-item">
-							<a class="nav-link" style="font-size:15px;" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
+							<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', [$group->id, 'quizzes']) }}">
 								{{$group->name}}
 							</a>
 						</li>
@@ -62,7 +62,7 @@
 						<span> <i class="fa fa-user-plus"></i> Cadastrar</span>
 					</h6>
 					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create')}}">
+						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create.get')}}">
 							Paciente
 						</a>
 					</li>
@@ -80,17 +80,6 @@
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span><i class="fa fa-question-circle"></i> Banco de Questoes</span>
 					</h6>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('storequestion.view')}}">
-							<span data-feather="home"></span>
-							Questoes
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('storequestion.category.view')}}">
-							Categorias
-						</a>
-					</li>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span><i class="fa fa-plus"></i> Outros</span>
@@ -125,7 +114,10 @@
 				<table id="display-allpatients" class="table table-striped" style="width:100%">
 					<thead>
 						<tr>
-							<th width="50%">Nome</th>
+							<th>Nome</th>
+							<th>Idade</th>
+							<th>CPF/RG</th>
+							<th>Avaliar</th>
 						</tr>
 					</thead>
 				</table>
@@ -143,7 +135,7 @@
 
 	$(document).ready(function() {
 		var table = $('#display-allpatients').DataTable( {
-			"ajax": "/search-allpatients/",	
+			"ajax": "/patient/find/55",	
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese.json",
 				"search": 'a',

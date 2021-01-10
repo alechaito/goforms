@@ -25,7 +25,7 @@
 			<div class="sidebar-sticky">
 				<ul class="nav flex-column">
 					<li class="nav-item">
-						<a class="nav-link" href="../index.html">
+						<a class="nav-link" href="{{ route('home') }}">
 							<span data-feather="home"></span>
 							Inicio
 						</a>
@@ -42,95 +42,23 @@
 		<div class="container">
 			<div class="row">
 					<div class="col-md-6">
-						<form method="POST" action="{{ route('patient.create.controller') }}">
+						<form method="POST" action="{{ route('patient.create.post') }}">
 						@csrf
 						<div class="form-group">
 							<input type="text" name="name" placeholder="Nome" class="form-control">
 						</div>
 						<div class="form-group">
-							<input type="text" name="birthday" placeholder="Data de nascimento" class="form-control">
+							<input type="text" name="age" placeholder="Idade" class="form-control">
 						</div>
 						<div class="form-group">
-							<input type="text" name="age" placeholder="Idade" class="form-control">
+							<input type="document" name="document" placeholder="CPF/RG" class="form-control">
+							<div class="form-text">Sem pontos ou tracos, apenas numeros.</div>
 						</div>
 						<div class="form-group">
 							<select name="sex" class="form-control">
 								<option value="" disabled selected>Sexo</option>
 								<option value="0">Masculino</option>
 								<option value="1">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Telefone" class="form-control">
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Endereco Rua/Avenida/Bairro/Numero" class="form-control">
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Cidade" class="form-control">
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="CEP" class="form-control">
-						</div>
-						<div class="form-group">
-							<textarea type="textarea" placeholder="Diagnostico Clinico" class="form-control rows="2"></textarea>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Cor</option>
-								<option value="saab">Branco</option>
-								<option value="mercedes">Pardo</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Situacao Conjulgal</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Escolaridade</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Vive com Companheira</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Vive com Filhos</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Vive Sozinho</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Vive com Outras Pessoas s/ Parentesco</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<select class="form-control">
-								<option value="" disabled selected>Vive com Outros Parentes</option>
-								<option value="saab">Masculino</option>
-								<option value="mercedes">Feminino</option>
 							</select>
 						</div>
 						<div class="text-right">

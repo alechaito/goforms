@@ -36,7 +36,7 @@ class BlockController extends Controller
             ->where('id', $request->id_quiz)
             ->update(['block_index' => $block->id]);  
         }
-        return redirect()->route('quiz.edit.view', $request->id_quiz); 
+        return redirect()->route('quiz.view.get', $request->id_quiz); 
     }
 
 
@@ -133,7 +133,7 @@ class BlockController extends Controller
                 ->where('id', $quiz->id)
                 ->update(['block_index' => implode(",", $indexes)]); 
 
-        return redirect()->route('quiz.edit.view', $quiz->id); 
+        return redirect()->route('quiz.view.get', $quiz->id); 
         
     }
 

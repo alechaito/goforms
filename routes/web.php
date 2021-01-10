@@ -40,7 +40,6 @@ Route::get('/logout', 'HomeController@logout')->name('logout')->middleware('auth
 //Route::get('/manifest.json', 'HomeController@manifest')->name('manifest');
 
 Route::get('/search-allusers', 'HomeController@search_allusers');
-Route::get('/search-allpatients', 'HomeController@search_allpatients');
 Route::get('/back', 'HomeController@back')->name('redirect.back');
 //--------------------------------------
 // Teacher Routes
@@ -67,16 +66,22 @@ Route::post('/student/edit/password', 'StudentController@edit_password')->name('
 //--------------------------------------
 // Patient Routes
 //------------------------------------
-Route::get('/patient/create', function () {
-    return view('patient.create');
-})->name('patient.create');
+Route::prefix('patient')->group(function () {
+    // get routes
+    Route::get('/create', 'PatientController@create_get')->name('patient.create.get')->middleware('auth');
+    Route::get('/find/{id_quiz}', 'PatientController@find_get')->middleware('auth');
+    Route::get('/evaluate/{id_patient}/{id_quiz}', 'PatientController@evaluate_get')->name('patient.evaluate.get')->middleware('auth');
+
+    // post routes
+    Route::post('/create', 'PatientController@create_post')->name('patient.create.post');
+    Route::post('/evaluate', 'PatientController@evaluate_post')->name('patient.evaluate.post');
+});
 
 Route::get('/search-patients', 'PatientController@search_patients');
 Route::get('/patient/edit/{id}', 'PatientController@edit')->name('patient.edit.view')->middleware('auth');
 Route::get('/patient/delete/{id}', 'PatientController@delete')->name('patient.delete')->middleware('auth');
 
 Route::post('/patient/edit', 'PatientController@edit_post')->name('patient.edit.post');
-Route::post('/patient/create', 'PatientController@create')->name('patient.create.controller');
 //--------------------------------------
 // Group Routes
 //------------------------------------
@@ -84,6 +89,7 @@ Route::prefix('group')->group(function () {
     //get routes
     Route::get('/participants/{id}', 'GroupController@participants_get')->name('group.participants.get')->middleware('auth');
     Route::get('/view/{id}', 'GroupController@view_get')->name('group.view.get')->middleware('auth');
+    Route::get('/delete/{id}', 'GroupController@delete_get')->name('group.delete.get')->middleware('auth');
 
     //post routes
 });
@@ -94,7 +100,7 @@ Route::get('/search-participants/add/{id_group}', 'GroupController@search_partic
 Route::get('/search-participants/{id_group}', 'GroupController@search_participants');
 Route::get('/group/insert/participant/{id_group}/{id_participant}/{id_role}', 'GroupController@insert_participant')->name('group.insert.participant');
 Route::get('/group/delete/participant/{id}', 'GroupController@delete_participant')->name('group.delete.participant');
-Route::get('/group/delete/{id}', 'GroupController@delete')->name('group.delete')->middleware('auth');
+//Route::get('/group/delete/{id}', 'GroupController@delete')->name('group.delete')->middleware('auth');
 Route::get('/group/deleteall/{ids}', 'GroupController@delete_all')->name('group.deleteall')->middleware('auth');
 
 

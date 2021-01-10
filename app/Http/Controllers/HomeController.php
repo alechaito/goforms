@@ -60,21 +60,6 @@ class HomeController extends Controller
         return json_encode($list);
     }
 
-    public function search_allpatients() {
-        $patients = DB::table('patients')->get();
-        $list = array('data' => array());
-
-        foreach($patients as $patient) {
-            $name = "
-                <a href='".route('patient.edit.view', $patient->id)."'>
-                    ".$patient->name." <i class='fa fa-eye'></i>
-                </a>
-            ";
-            array_push($list['data'], array($name));  
-        }
-        return json_encode($list);
-    }
-
     public function back() {
         return redirect()->back();
     }
