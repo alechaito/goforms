@@ -57,7 +57,16 @@ class PatientController extends Controller
         return view('quiz.view', compact('quiz')); 
     }
 
-    public function edit($id) {
+    public function search_get($id_quiz) {
+        $quiz = Quiz::find($id_quiz);
+        return view('patient.search', compact('quiz')); 
+    }
+
+    public function edit_all_get() {
+        return view('patient.all');
+    }
+
+    public function edit_get($id) {
         $patient = Patient::find($id);
         return view('patient.edit', compact('patient'));
     }
@@ -65,43 +74,27 @@ class PatientController extends Controller
     public function edit_post(Request $request) {
         $patient = Patient::find($request->id_patient);
         $patient->name = $request->name;
-        $patient->birthday = $request->birthday;
+        $patient->document = $request->document;
         $patient->age = $request->age;
         $patient->sex = $request->sex;
         $patient->save();
         return view('patient.edit', compact('patient'));
     }
 
-    public function delete($id) {
+    public function delete_get($id) {
         $patient = Patient::find($id);
         $patient->delete();
-        return redirect()->back();
+        return redirect()->route('home');  
     }
 
-    public function search_patients() {
-        $patients = DB::table('patients')->orderByRaw('name ASC')->get();
-        $list = array('data' => array());
 
-        foreach($patients as $patient) {
-            $actions = "
-                <a href='".route('storequestion.category.delete', $patient->id)."'>
-                    <i class='fa fa-times'></i>
-                </a>
-             ";
-            array_push($list['data'], array($patient->name, $actions));
-        }
-        return json_encode($list);
-    }
-
-    // FIND PATIENT API - ajax return
-    // receive id from quiz to evaluate patient
-    public function find_get($id_quiz) {
+    public function make_table_evaluate($id_quiz) {
         $patients = DB::table('patients')->get();
         $list = array('data' => array());
 
         foreach($patients as $patient) {
             $name = "
-                <a href='".route('patient.edit.view', $patient->id)."'>
+                <a href='".route('patient.edit.get', $patient->id)."'>
                     ".$patient->name." <i class='fa fa-eye'></i>
                 </a>
             ";
@@ -111,6 +104,21 @@ class PatientController extends Controller
                 </a>
             ";
             array_push($list['data'], array($name, $patient->age, $patient->document, $evaluate));  
+        }
+        return json_encode($list);
+    }
+
+    public function make_table_edit() {
+        $patients = DB::table('patients')->get();
+        $list = array('data' => array());
+
+        foreach($patients as $patient) {
+            $name = "
+                <a href='".route('patient.edit.get', $patient->id)."'>
+                    ".$patient->name." <i class='fa fa-eye'></i>
+                </a>
+            ";
+            array_push($list['data'], array($name, $patient->age, $patient->document));  
         }
         return json_encode($list);
     }
