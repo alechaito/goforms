@@ -19,7 +19,17 @@ class QuestionController extends Controller
     public function create_get($id) {
         $block = Block::find($id);
         return view('question.create', compact('block')); 
-    }  
+    }
+
+    public function create_choices($question_id, $choices) {
+        DB::table('multiple_choices')->insert(
+            ['id_question' => $question_id, 'choices' => $choices, 'type' => 0]
+        );
+    }
+
+    public function get_block_by_id($id_block) {
+        return Block::find($id_block);
+    }
 
     // Questions
     public function create_post(Request $request) {
@@ -29,34 +39,12 @@ class QuestionController extends Controller
         $question->type = $request->type;
         $question->save();
 
-        // Check if exist category with same name or creating them to add storequestion before
-        $block = Block::find($question->id_block);
-        $category = Category::where('name', '=', $block->name)->first();
-        if($category == NULL) {
-            $category = new Category();
-            $category->name = $block->name;
-            $category->id_user = Auth::User()->id;
-            $category->save();
-        }
-
-        //Inserting the new question in database of questions
-        $storequestion = new StoreQuestion();
-        $storequestion->id_user = Auth::User()->id;
-        $storequestion->id_category = $category->id;
-        $storequestion->question = $question->question;
-        $storequestion->type = $question->type;
-        $storequestion->save();
-
         if($question->type == 2) {
-            //Choices query for question
-            DB::table('multiple_choices')->insert(
-                ['id_question' => $question->id, 'choices' => $request->choices, 'type' => 0]
-            );
-            //Choices query for storequestion
-            DB::table('multiple_choices')->insert(
-                ['id_question' => $storequestion->id, 'choices' => $request->choices, 'type' => 1]
-            );
+            QuestionController::create_choices($question->id, $request->choices);
         }
+
+        $block = QuestionController::get_block_by_id($request->id_block);
+
         // Refreshing indexes of questions of block
         if($block->question_index != NULL) {
             $indexes = explode(',', $block->question_index);
@@ -165,7 +153,7 @@ class QuestionController extends Controller
         //return redirect()->back();
     }
 
-    public function edit($id) {
+    public function edit_get($id) {
         $question = Question::find($id);
         $block = Block::find($question->id_block);
         return view('question.edit', compact('block', 'question')); 
