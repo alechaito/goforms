@@ -1,7 +1,7 @@
 
 # GO Forms
 
-Trabalho de conclusao de curso desenvolvido durante a graduacao de engenharia de computacao na Universidade Federal de Santa Catarina com apoio do meu orientador Jim Lau.
+Trabalho de conclusao de curso desenvolvido durante a graduacao de engenharia de computacao na Universidade Federal de Santa Catarina com apoio do orientador Jim Lau.
 
 ### Objetivo
 
