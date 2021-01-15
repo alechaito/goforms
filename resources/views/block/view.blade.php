@@ -151,7 +151,7 @@
 											</td>
 											<th scope="row">{{$count}}</th>
 											<td>
-												<a href="{{ route('question.edit', $question->id) }}">
+												<a href="{{ route('question.edit.get', $question->id) }}">
 													{{$question->question}} <i class="fa fa-eye"></i>
 												</a>
 											</td>

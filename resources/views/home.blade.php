@@ -1,6 +1,5 @@
 @inject('group_model', 'App\Group');
 @inject('block_model', 'App\Block');
-@inject('storequestion_model', 'App\StoreQuestion');
 @inject('group_control', 'App\Http\Controllers\GroupController')
 
 @php
@@ -79,20 +78,16 @@
 						<span><i class="fa fa-plus"></i> Outros</span>
 					</h6>
 					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="./patient/evaluate.html">
-							<i class="fa fa-user-md"></i>  Avaliar Paciente
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('searchuser.view')}}">
-							<i class="fa fa-search"></i> Buscar Usuario
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('searchpatient.view')}}">
+						<a class="nav-link" style="font-size:15px;" href="{{route('patient.edit.all.get')}}">
 							<i class="fa fa-search"></i> Buscar Paciente
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" style="font-size:15px;" href="{{route('user.edit.get')}}">
+							<i class="fa fa-user"></i> Editar Perfil
+						</a>
+					</li>
+
 				</ul>
 				
 			</div>

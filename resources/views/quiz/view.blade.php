@@ -107,6 +107,11 @@
 							Editar
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('patient.search.get', $quiz->id) }}">
+							Avaliar Paciente
+						</a>
+					</li>
 
 				</ul>
 			</div>
@@ -223,7 +228,7 @@
 													<tr>
 														<th width="5%" scope="row">{{$count}}</th>
 														<td width="70%">
-															<a href="{{ route('question.edit',  $question->id) }}">
+															<a href="{{ route('question.edit.get',  $question->id) }}">
 																{{$question->question}} <i class="fa fa-eye"></i>
 															</a>
 														</td>

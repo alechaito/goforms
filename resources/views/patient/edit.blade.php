@@ -43,208 +43,65 @@ $all_groups = DB::table('groups')
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span>Projetos</span>
 					</h6>
-					@foreach($all_groups as $group)
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('group.preview.view', [$group->id, 'quizzes']) }}">
-								{{$group->name}}
-							</a>
-						</li>
-					@endforeach
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>Banco de Questoes</span>
-					</h6>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('storequestion.view')}}">
-							<span data-feather="home"></span>
-							Questoes
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('storequestion.category.view')}}">
-							<span data-feather="home"></span>
-							Categorias
-						</a>
-					</li>
-
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>Outros</span>
-					</h6>
-					<li class="nav-item">
-						<a class="nav-link" href="./patient/evaluate.html">
-							<span data-feather="home"></span>
-							Avaliar Paciente
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('searchuser.view')}}">
-							<span data-feather="home"></span>
-							Buscar Usuario
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('searchpatient.view')}}">
-							<span data-feather="home"></span>
-							Buscar Paciente
-						</a>
-					</li>
-				</ul>
 			</div>
 		</nav>
 
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h1 class="h2">
-				Editando Paciente
-			</h1>
-		</div>
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">
+					Editando Paciente
+				</h1>
+			</div>
 
-		<p class="text-right">
-			<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modal-include">Incluir a um Grupo</button>
-			
-			<a href="{{route('patient.delete', $patient->id)}}">
-				<button type="button" class="btn btn-danger">
-					Excluir Paciente
-				</button>
-			</a>
-		</p>
+			<p class="text-right">
+				<a href="{{route('patient.delete.get', $patient->id)}}">
+					<button type="button" class="btn btn-danger">
+						Excluir Paciente
+					</button>
+				</a>
+			</p>
 
-		<ul class="nav nav-tabs">
-			<li class="nav-item">
-				<a href="#a" class="nav-link" data-toggle="tab">Dados</a>
-			</li>
-			<li class="nav-item">
-				<a href="#b" class="nav-link" data-toggle="tab">Relatorios</a>
-			</li>
-		</ul>
-
-		<div class="tab-content" id="tabs">
-		</br>
-
-			<!-- ---------------------------------------------->
-			<div class="tab-pane" id="a">
 		
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<form method="POST" action="{{ route('patient.edit.post', $patient->id) }}">
-								@csrf
-								<input type="hidden" name="id_patient" value="{{$patient->id}}">
-								<div class="form-group">
-									<label>Nome</label>
-									<input type="text" name="name" value="{{$patient->name}}" class="form-control">
-								</div>
-								<div class="form-group">
-									<label>Data de nascimento</label>
-									<input type="text" name="birthday" value="{{$patient->birthday}}" class="form-control">
-								</div>
-								<div class="form-group">
-									<label>Idade</label>
-									<input type="text" name="age" value="{{$patient->age}}" class="form-control">
-								</div>
-								<div class="form-group">
-									<label>Sexo</label>
-									<select name="sex" class="form-control">
-										@if($patient->sex == 0)
-											<option value="0" selected>Masculino</option>
-											<option value="1">Feminino</option>
-										@else
-											<option value="0">Masculino</option>
-											<option value="1" selected>Feminino</option>
-										@endif
-									</select>
-								</div>
-								<div class="text-right">
-									<button type="submit" class="btn btn-primary">Atualizar</button>
-								</div>
-							</form>
-						</div>
-						<div class="col-md-6">
-							<h5 class="h5">Grupos a que Pertence</h5>
-							<ul>
-								@foreach($groups_inside as $group)
-									<li>{{ $group->name }}</li>
-								@endforeach
-							</ul>
-							
-						</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="{{ route('patient.edit.post', $patient->id) }}">
+							@csrf
+							<input type="hidden" name="id_patient" value="{{$patient->id}}">
+							<div class="form-group">
+								<label>Nome</label>
+								<input type="text" name="name" value="{{$patient->name}}" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>CPF/RG</label>
+								<input type="text" name="document" value="{{$patient->document}}" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Idade</label>
+								<input type="text" name="age" value="{{$patient->age}}" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Sexo</label>
+								<select name="sex" class="form-control">
+									@if($patient->sex == 0)
+										<option value="0" selected>Masculino</option>
+										<option value="1">Feminino</option>
+									@else
+										<option value="0">Masculino</option>
+										<option value="1" selected>Feminino</option>
+									@endif
+								</select>
+							</div>
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary">Atualizar</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 
-			<!-- ---------------------------------------------->
-
-			<div class="tab-pane" id="b">
-				<div class="row">
-					<div class="col-md-8">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th scope="col" >#</th>
-									<th scope="col" >Grupo-Relatorio</th>
-									<th scope="col" >Data-Hora</th>
-									<th scope="col" ></th>
-									<th scope="col" ></th>
-									<th scope="col" ></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>Grupo 1 - Relatorio 1</td>
-									<td>21/03/20 - 14:40</td>
-									<td>
-										<button type="button" class="btn btn-secondary">CSV</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">XLSM</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">PDF</button>
-									</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>Grupo 1 - Relatorio 2</td>
-									<td>21/03/20 - 14:40</td>
-									<td>
-										<button type="button" class="btn btn-secondary">CSV</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">XLSM</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">PDF</button>
-									</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>Grupo 1 - Relatorio 3</td>
-									<td>21/03/20 - 14:40</td>
-									<td>
-										<button type="button" class="btn btn-secondary">CSV</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">XLSM</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-secondary">PDF</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>  <!-- TAB PANE -->
-
-			<!----------------------------------------------------> 
-
-
-
-		</div>
-		
-
-    </main>
-  </div>
+    	</main>
+  	</div>
 </div>
 
 <!-- Modal Include in a Group -->

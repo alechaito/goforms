@@ -193,12 +193,6 @@
 						<b>Com os selecionados:</b></br>
 						<button id="delete-all" type="button" class="btn btn-danger">Apagar</button>
 						
-						<!--<button onclick="move(this)" type="button" class="btn btn-secondary">Mover para >></button>	
-						<select style="width:100px;">
-							@foreach($groups as $d)
-								<option class="group-value" value="{{$d->id}}">{{$d->name}}</option>
-							@endforeach
-						</select> -->
 					</div>
 				</div>
 				</br>
@@ -225,7 +219,6 @@
 							<thead>
 								<tr>
 									<th width="50%">Nome</th>
-									<th width="40%">Papel</th>
 									<th>Acoes</th>
 								</tr>
 							</thead>
@@ -316,38 +309,11 @@
 
 <script>
 
-function move(data) {
-	var id_group = $('.group-value:selected')[0].value;
-	if(confirm('Tem certeza que deseja mover os questionarios selecionados e todo seu conteudo para o grupo?')) {
-		var checkeds = $('.delete-quiz:checkbox:checked');
-		var i;
-		for (i = 0; i < checkeds.length; i++) {
-			$.get("http://localhost:8000/quiz/move/"+checkeds[i].value+"/"+id_group, function(data, status){
-				return true;
-			});
-		}
-		window.location.reload(true);
-	}
-}
 
-$(function()
-{	
-	$('#select-all').click(function () {    
-		$('input:checkbox').prop('checked', true);    
-	 });
-	 
-	 $('#delete-all').click(function () {
-		var checkeds = $('.delete-quiz:checkbox:checked');
-		var i;
-		for (i = 0; i < checkeds.length; i++) {
-			document.getElementById('quiz-delete-'+checkeds[i].value).submit();
-		}
- 	});
-});
 
 $(document).ready(function() {
     var table = $('#display-participants-include').DataTable( {
-        "ajax": "/search-participants/add/{{$group->id}}",
+        "ajax": "/group/participants/add/{{$group->id}}",
 		"language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese.json",
 			"search": 'a',
@@ -361,7 +327,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     var table = $('#display-participants').DataTable( {
-        "ajax": "/search-participants/{{$group->id}}",	
+        "ajax": "/group/participants/search/{{$group->id}}",	
 		"language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese.json",
 			"search": 'a',
@@ -373,11 +339,7 @@ $(document).ready(function() {
     });
 });
 
-
 </script>
 
 </body>
-@php
-var_dump($group->id);
-@endphp
 </html>
