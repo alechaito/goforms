@@ -30,16 +30,17 @@ Este projeto pretende auxiliar pesquisas de campo e coleta de dados, criando for
         * Excluir [x]
 * Pacientes
     * Inserir [x]
-    * Avaliar [ ]
+    * Avaliar [X]
     * Buscar [x]
 * Usuarios
-    * Inserir [ ]
-    * Excluir [ ]
-    * Buscar [ ]
+    * Inserir [X]
+    * Excluir [X]
+    * Buscar [X]
 * Participantes
-    * Inserir [ ]
-    * Excluir [ ]
-
+    * Inserir [X]
+    * Excluir [X]
+    * Adicionar a um Grupo [ ]
+    * Listar Grupos [ ]
 
 
 
