@@ -2,102 +2,77 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/test', function () {
-    return view('apply');
-});
-
-
-Route::get('/storequestion/home', function () {
-    return view('storequestion.home');
-})->name('storequestion.view')->middleware('auth');
-
 Route::get('/searchuser', function () {
     return view('searchuser');
 })->name('searchuser.view')->middleware('auth');
 
-Route::get('/searchpatient', function () {
-    return view('searchpatient');
-})->name('searchpatient.view')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/logout', 'HomeController@logout')->name('logout')->middleware('auth');
-//Route::get('/manifest.json', 'HomeController@manifest')->name('manifest');
 
 Route::get('/search-allusers', 'HomeController@search_allusers');
 Route::get('/back', 'HomeController@back')->name('redirect.back');
 //--------------------------------------
 // Teacher Routes
 //------------------------------------
-Route::get('/teacher/create', function () {
-    return view('teacher.create');
-})->name('teacher.create');
-Route::get('/teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit.view')->middleware('auth');
-Route::get('/teacher/delete/{id}', 'TeacherController@delete')->name('teacher.delete')->middleware('auth');
 
-Route::post('/teacher/edit', 'TeacherController@edit_post')->name('teacher.edit.post');
-Route::post('/teacher/edit/password', 'TeacherController@edit_password')->name('teacher.edit.password');
-//--------------------------------------
-// Student Routes
-//------------------------------------
-Route::get('/student/create', function () {
-    return view('student.create');
-})->name('student.create');
-Route::get('/student/edit/{id}', 'StudentController@edit')->name('student.edit.view')->middleware('auth');
-Route::get('/student/delete/{id}', 'StudentController@delete')->name('student.delete')->middleware('auth');
+#Route::get('/teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit.view')->middleware('auth');
+#Route::get('/teacher/delete/{id}', 'TeacherController@delete')->name('teacher.delete')->middleware('auth');
 
-Route::post('/student/edit', 'StudentController@edit_post')->name('student.edit.post');
-Route::post('/student/edit/password', 'StudentController@edit_password')->name('student.edit.password');
-//--------------------------------------
-// Patient Routes
-//------------------------------------
-Route::prefix('patient')->group(function () {
+#Route::post('/teacher/edit', 'TeacherController@edit_post')->name('teacher.edit.post');
+#Route::post('/teacher/edit/password', 'TeacherController@edit_password')->name('teacher.edit.password');
+
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function(){
     // get routes
-    Route::get('/create', 'PatientController@create_get')->name('patient.create.get')->middleware('auth');
-    Route::get('/find/{id_quiz}', 'PatientController@find_get')->middleware('auth');
-    Route::get('/evaluate/{id_patient}/{id_quiz}', 'PatientController@evaluate_get')->name('patient.evaluate.get')->middleware('auth');
+    Route::get('/edit', 'UserController@edit_get')->name('user.edit.get');
 
+    // post routes
+    Route::post('/edit', 'UserController@edit_post')->name('user.edit.post');
+    Route::post('/edit/password', 'UserController@edit_password')->name('user.edit.password');
+});
+
+// Patient Routes
+Route::group(['prefix' => 'patient', 'middleware' => ['auth']], function(){
+    // get routes
+    Route::get('/create', 'PatientController@create_get')->name('patient.create.get');
+    Route::get('/make/table/evaluate/{id_quiz}', 'PatientController@make_table_evaluate');
+    Route::get('/evaluate/{id_patient}/{id_quiz}', 'PatientController@evaluate_get')->name('patient.evaluate.get');
+    Route::get('/search/{id_quiz}', 'PatientController@search_get')->name('patient.search.get');
+    Route::get('/edit/{id}', 'PatientController@edit_get')->name('patient.edit.get');
+    Route::get('/delete/{id}', 'PatientController@delete_get')->name('patient.delete.get');
+    Route::get('/make/table/edit', 'PatientController@make_table_edit');
+    Route::get('/all', 'PatientController@edit_all_get')->name('patient.edit.all.get');
+    
+    
     // post routes
     Route::post('/create', 'PatientController@create_post')->name('patient.create.post');
     Route::post('/evaluate', 'PatientController@evaluate_post')->name('patient.evaluate.post');
+    Route::post('/edit', 'PatientController@edit_post')->name('patient.edit.post');
 });
 
-Route::get('/search-patients', 'PatientController@search_patients');
-Route::get('/patient/edit/{id}', 'PatientController@edit')->name('patient.edit.view')->middleware('auth');
-Route::get('/patient/delete/{id}', 'PatientController@delete')->name('patient.delete')->middleware('auth');
 
-Route::post('/patient/edit', 'PatientController@edit_post')->name('patient.edit.post');
-//--------------------------------------
 // Group Routes
-//------------------------------------
-Route::prefix('group')->group(function () {
+Route::group(['prefix' => 'group', 'middleware' => ['auth']], function(){
     //get routes
     Route::get('/participants/{id}', 'GroupController@participants_get')->name('group.participants.get')->middleware('auth');
     Route::get('/view/{id}', 'GroupController@view_get')->name('group.view.get')->middleware('auth');
     Route::get('/delete/{id}', 'GroupController@delete_get')->name('group.delete.get')->middleware('auth');
+    Route::get('/participants/search/{id_group}', 'GroupController@participants_search');
+    Route::get('/participants/add/{id_group}', 'GroupController@search_participants_add');
 
     //post routes
+    Route::post('/add/user', 'GroupController@add_user')->name('group.add.user');
 });
 
 //Route::get('/group/view/{id}', 'GroupController@preview')->name('group.preview.view')->middleware('auth');
 Route::get('/search-user', 'GroupController@search_user');
 Route::get('/search-participants/add/{id_group}', 'GroupController@search_participants_add');
-Route::get('/search-participants/{id_group}', 'GroupController@search_participants');
+#Route::get('/search-participants/{id_group}', 'GroupController@search_participants');
 Route::get('/group/insert/participant/{id_group}/{id_participant}/{id_role}', 'GroupController@insert_participant')->name('group.insert.participant');
 Route::get('/group/delete/participant/{id}', 'GroupController@delete_participant')->name('group.delete.participant');
 //Route::get('/group/delete/{id}', 'GroupController@delete')->name('group.delete')->middleware('auth');
@@ -156,40 +131,22 @@ Route::post('/block/create', 'BlockController@create')->name('block.create.post'
 Route::prefix('question')->group(function () {
     //get routes
     Route::get('/create/{id}', 'QuestionController@create_get')->name('question.create.get')->middleware('auth');
-    
+    Route::get('/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
+    Route::get('/preview/{id}', 'QuestionController@preview')->name('question.preview')->middleware('auth');
+    Route::get('/edit/{id}', 'QuestionController@edit_get')->name('question.edit.get')->middleware('auth');
+    Route::get('/move/{id}', 'QuestionController@move')->name('question.move')->middleware('auth');
+    Route::get('/delete/{id}', 'QuestionController@delete')->name('question.delete')->middleware('auth');
+    Route::get('/deleteall/{id}', 'QuestionController@delete_all')->name('question.deleteall')->middleware('auth');
+    Route::get('/update/index/{id_question}/{type}', 'QuestionController@update_index')->name('question.index.update')->middleware('auth');
+    Route::get('/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
+
+
     //post routes
     Route::post('/create', 'QuestionController@create_post')->name('question.create.post')->middleware('auth');
+    Route::post('/edit', 'QuestionController@edit_post')->name('question.edit.post')->middleware('auth');
+
 });
 
-Route::get('/question/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
-Route::get('/question/preview/{id}', 'QuestionController@preview')->name('question.preview')->middleware('auth');
-Route::get('/question/edit/{id}', 'QuestionController@edit')->name('question.edit')->middleware('auth');
-Route::get('/question/move/{id}', 'QuestionController@move')->name('question.move')->middleware('auth');
-Route::get('/question/delete/{id}', 'QuestionController@delete')->name('question.delete')->middleware('auth');
-Route::get('/question/deleteall/{id}', 'QuestionController@delete_all')->name('question.deleteall')->middleware('auth');
-Route::get('/question/update/index/{id_question}/{type}', 'QuestionController@update_index')->name('question.index.update')->middleware('auth');
-Route::get('/question/choices/{id}', 'QuestionController@question_choices')->name('question.choice.view')->middleware('auth');
 
-Route::post('/question/edit/post', 'QuestionController@edit_post')->name('question.edit.post')->middleware('auth');
-//--------------------------------------
-//Store Question Routes
-//------------------------------------
-/*Route::get('/search-storequestion', 'StoreQuestionController@search_storequestion');
-Route::get('/search-storequestion/block/{id_block}', 'StoreQuestionController@search_storequestion_block');
-Route::get('/search-categories', 'StoreQuestionController@search_categories');
-Route::get('/storequestion/delete/{id}', 'StoreQuestionController@delete')->name('storequestion.delete')->middleware('auth');
-Route::get('/storequestion/preview/{id}', 'StoreQuestionController@preview')->name('storequestion.preview')->middleware('auth');
-Route::get('/storequestion/copy/{id}', 'StoreQuestionController@copy')->name('storequestion.copy')->middleware('auth');
-Route::get('/storequestion/edit/{id}', 'StoreQuestionController@edit')->name('storequestion.edit.get')->middleware('auth');
-Route::get('/storequestion/categories/', 'StoreQuestionController@category_view')->name('storequestion.category.view')->middleware('auth');
-Route::get('/storequestion/category.delete/{id}', 'StoreQuestionController@category_delete')->name('storequestion.category.delete')->middleware('auth');
-Route::get('/storequestion/move/{id}/{id_block}', 'StoreQuestionController@move')->name('storequestion.move')->middleware('auth');
-Route::get('/storequestion/moveall/{ids}/{id_block}', 'StoreQuestionController@move_all')->name('storequestion.moveall')->middleware('auth');
-
-
-Route::post('/storequestion/create', 'StoreQuestionController@create')->name('storequestion.create.post')->middleware('auth');
-Route::post('/storequestion/create/category', 'StoreQuestionController@create_category')->name('storequestion.category.create')->middleware('auth');
-Route::post('/storequestion/edit/', 'StoreQuestionController@edit_post')->name('storequestion.edit.post')->middleware('auth');
-*/
 // AUthenticated routhes
 Auth::routes();
