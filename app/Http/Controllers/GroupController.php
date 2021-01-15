@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Group;
 use App\Patient;
 use App\Quiz;
+use App\User;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -104,8 +105,7 @@ class GroupController extends Controller
         DB::table('group_participants')->insert(
             [
                 'id_group' => $request->id_group, 
-                'id_participant' => $request->id_user, 
-                'level' => $request->level
+                'id_participant' => $request->id_user
             ]
         );
         return redirect()->back();
@@ -113,94 +113,67 @@ class GroupController extends Controller
 
     // Search participants based on group and action
     public function search_participants_add($id_group) {
-        $patients = DB::table('patients')->orderByRaw('name ASC')->get();
-        $users = DB::table('users')->orderByRaw('name ASC')->get();
-        
+        $group = Group::find($id_group);
+
+        $users = DB::table('users')
+        ->where('id', '!=', $group->id_user)
+        ->orderByRaw('name ASC')->get();
+
         $list = array('data' => array());
 
-        /*foreach($patients as $patient) {
-            $actions = "
-                <a href='".route('group.insert.participant', [$id_group, $patient->id, 2])."'>
-                    <i class='fa fa-plus'></i>
-                </a>
-            ";
-            
-            array_push($list['data'], array($patient->name, 'Paciente', $actions));
-        }*/
         foreach($users as $user) {
-            $actions = "
-                <form method='POST' action='".route('group.add.user')."'>
-                    <input type='hidden' name='_token' value='".csrf_token()."'>
-                    <input type='hidden' name='id_user' value='".$user->id."'/>
-                    <input type='hidden' name='id_group' value='".$id_group."'/>
-                    <select name='level'>
-                        <option value='0'>Leitor</option>
-                        <option value='1'>Monitor</option>
-                        <option value='2'>Editor</option>
-                    </select>
-                    <button class='btn btn-secondary btn-sm' type='submit'>Adicionar</button>
-                </form>
-            ";
-            /*if($user->role  == 0) {
-                array_push($list['data'], array($user->name, 'Professor', $actions));
-            }
-            else {
-                array_push($list['data'], array($user->name, 'Estudante', $actions));  
-            }*/
+            $actions = GroupController::make_form_add_participant($user->id, $id_group);
             array_push($list['data'], array($user->name, $user->email, $actions));  
         }
+
         return json_encode($list);
     }
 
+    public function make_form_add_participant($id_user, $id_group) {
+        return "<form method='POST' action='".route('group.add.user')."'>
+            <input type='hidden' name='_token' value='".csrf_token()."'>
+            <input type='hidden' name='id_user' value='".$id_user."'/>
+            <input type='hidden' name='id_group' value='".$id_group."'/>
+            <button class='btn btn-secondary btn-sm' type='submit'>Adicionar</button>
+        </form>";
+    }
+
+    public function is_owner($id_participant, $id_group) {
+        $group = Group::find($id_group);
+        if($group->id_user == $id_participant) {
+            return true;
+        }
+
+        return false;
+    }
+
     // Search participants based on group 
-    public function search_participants($id_group) {
+    public function participants_search($id_group) {
         $participants = DB::table('group_participants')->where('id_group', $id_group)->get();
         $group = Group::find($id_group);
         $list = array('data' => array());
 
         foreach($participants as $participant) {
-            if($group->id_user == $participant->id_participant) {
-                $level = 'Dono';
+
+            if(GroupController::is_owner($participant->id_participant, $group->id)){
+                $level = ' (Dono)';
                 $delete = '';
             }
             else {
+                $level = '';
                 $delete= "
                     <a href='".route('group.delete.participant', $participant->id)."'>
                         <i class='fa fa-times'></i>
                     </a>
                 "; 
-                if($participant->level == 0) {
-                    $level = 'Leitor';
-                }
-                else if($participant->level == 1) {
-                    $level = 'Monitor';
-                }
-                else {
-                    $level = 'Editor';
-                }
+
             }
-            // teacher or user
-            $user = DB::table('users')
-            ->where('id', $participant->id_participant)
-            ->first();
+            // users
+
+            $user = User::find($participant->id_participant);
+
             if($user != NULL) {
-                // Data for participant teacher
-                if($user->role  == 0) {
-                    $name = "
-                        <a href='".route('teacher.edit.view', $user->id)."'>
-                            ".$user->name." <i class='fa fa-eye'></i>
-                        </a>
-                    ";
-                }
-                else { // Data for participant student
-                    $name = "
-                        <a href='".route('student.edit.view', $user->id)."'>
-                            ".$user->name." <i class='fa fa-eye'></i>
-                        </a>
-                    ";
-                }
-                array_push($list['data'], array($name, $level, $delete));
-                
+                array_push($list['data'], array($user->name.$level, $delete));
             }
             
         }
