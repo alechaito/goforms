@@ -4,12 +4,7 @@
 @inject('group_control', 'App\Http\Controllers\GroupController')
 
 @php
-	$groups = $group_control::groups_user(Auth::id());
-
-	var_dump($group->id);
-	
-	//$users_group = $group_control->select_users_group($group->id);
-	//$patients_group = $group_control->select_patients_group($group->id);
+	$groups = $group_control::get_own_and_included_groups(Auth::id());
 	$quizzes_group = $group_control->quizzes($group->id);
 
 @endphp
@@ -130,7 +125,6 @@
 									<th scope="col">
 									</th>
 									<th scope="col">Nome</th>
-									<th scope="col">Estado</th>
 									<th scope="col">Acoes</th>
 								</tr>
 							</thead>
@@ -159,7 +153,6 @@
 											@endif
 										</ul>
 									</td>
-									<td>Fechado</td>
 									<td>
 										<a href="{{ route('quiz.preview.get', $quiz->id) }}" style="text-decoration: none;">
 											<i class="fa fa-search"></i>

@@ -11,6 +11,8 @@ use App\Question;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class QuizController extends Controller
 {
@@ -31,10 +33,167 @@ class QuizController extends Controller
         return redirect()->route('group.view.get', $request->id_group); 
     }
 
-    // Function to display view from edit quiz
     public function edit_get($id) {
         $quiz = Quiz::find($id);
         return view('quiz.edit', compact('quiz')); 
+    } 
+
+    public function chart_get($id_quiz) {
+        $quiz = Quiz::find($id_quiz);
+        return view('quiz.chart', compact('quiz'));   
+        #$result = QuizController::count_data_text($id_quiz);
+    }
+
+    public function get_data_multiple_choices($id_quiz) {
+        return DB::table('quizzes')
+        ->join('blocks', 'blocks.id_quiz', '=', 'quizzes.id')
+        ->join('questions', 'questions.id_block', '=', 'blocks.id')
+        ->join('multiple_choices', 'multiple_choices.id_question', '=', 'questions.id')
+        ->where('quizzes.id', $id_quiz)
+        ->where('questions.type', 2)
+        ->get();
+    }
+
+    public function get_data_text($id_quiz) {
+        return DB::table('quizzes')
+        ->join('blocks', 'blocks.id_quiz', '=', 'quizzes.id')
+        ->join('questions', 'questions.id_block', '=', 'blocks.id')
+        ->where('quizzes.id', $id_quiz)
+        ->get();
+    }
+
+    public function count_data_text($id_quiz) {
+        $datas = QuizController::get_data_text($id_quiz);
+        $stack = array();
+
+        foreach($datas as $data) {
+            if($data->type == 1 or $data->type == 3) {
+                $choices = DB::table('evaluates')
+                ->select('question_response')
+                ->where('question_id', $data->id)
+                ->distinct()
+                ->get();
+                $qest_data_aux = array();
+                foreach($choices as $choice) {
+                    $count = DB::table('evaluates')
+                    ->where('question_id', $data->id)
+                    ->where('question_response', $choice->question_response)
+                    ->count();
+                    array_push($qest_data_aux, array(
+                            'question' => $data->question, 
+                            'id_question' => $data->id, 
+                            'choice' => $choice->question_response, 
+                            'total' => $count
+                        )
+                    );
+                }
+                array_push($stack, $qest_data_aux);
+            }
+        }
+        return $stack;
+    }
+
+    public function count_data_multiple_choices($id_quiz) {
+        $datas = QuizController::get_data_multiple_choices($id_quiz);
+        $stack = array();
+
+        foreach($datas as $data) {
+            $choices = QuestionController::question_choices($data->id_question);
+            $qest_data_aux = array();
+            foreach($choices as $choice) {
+                $count = DB::table('evaluates')
+                ->where('question_id', $data->id_question)
+                ->where('question_response', $choice)
+                ->count();
+                array_push($qest_data_aux, array(
+                        'question' => $data->question, 
+                        'id_question' => $data->id_question, 
+                        'choice' => $choice, 
+                        'total' => $count
+                    )
+                );
+            }
+            array_push($stack, $qest_data_aux);
+        }
+        return $stack;
+    }
+
+    public function make_data_for_choice($data) {
+        $opts = array();
+        $totals = array();
+        foreach($data as $each) {
+            $opt = $each['choice'];
+            $total = $each['total'];
+            array_push($opts, $opt);
+            array_push($totals, $total);
+        }
+        $totals = json_encode($totals);
+        $graph_key = $data[0]['id_question'];
+        $question = $data[0]['question'];
+
+        return array($totals, $graph_key, $question, $opts);
+    }
+
+    public function make_data_for_text($data) {
+        $opts = array();
+        $totals = array();
+        foreach($data as $each) {
+            $opt = $each['choice'];
+            $total = $each['total'];
+            array_push($opts, $opt);
+            array_push($totals, $total);
+        }
+        $totals = json_encode($totals);
+        $graph_key = $data[0]['id_question'];
+        $question = $data[0]['question'];
+
+        return array($totals, $graph_key, $question, $opts);
+    }
+
+
+    public function chart_get_data($id_quiz) {
+        return DB::table('evaluates')
+        ->join('patients', 'evaluates.patient_id', '=', 'patients.id')
+        ->where('quiz_id', $id_quiz)
+        ->select('patient_id', 'age', 'sex')
+        ->distinct('patient_id')
+        ->get();
+    }
+
+    public function export_csv($id_quiz){
+        $evaluates = DB::table('evaluates')->where('quiz_id', $id_quiz)->get();
+        $filename = 'avaliacoes.csv';
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = array('Questao', 'Resposta');
+
+        $callback = function() use($evaluates, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($evaluates as $evaluate) {
+                $row['Questao']  = $evaluate->question_name;
+                $row['Resposta'] = $evaluate->question_response;;
+
+                fputcsv($file, array($row['Questao'], $row['Resposta']));
+            }
+
+            fclose($file);
+        };
+
+        return (new StreamedResponse($callback, 200, $headers))->sendContent();
+    }
+
+    public function export_get($id) {
+        $quiz = Quiz::find($id);
+        return view('quiz.export', compact('quiz')); 
     } 
 
     // Function to edit settings of a quiz
@@ -77,13 +236,6 @@ class QuizController extends Controller
         return view('quiz.view', compact('quiz')); 
     }  
 
-    public function changestatus(Request $request) {
-        $quiz = Quiz::find($request->id_quiz);
-        $quiz->status = $request->status;
-        $quiz->save();
-        return redirect()->route('quiz.view.get', $request->id_quiz); 
-    }
-
     public function quiz_apply($id) {
         $quiz = Quiz::find($id);
         $patients = Patient::All();
@@ -97,96 +249,5 @@ class QuizController extends Controller
         return view('quiz.apply', compact('quiz', 'array', 'indexes_block')); 
     }
 
-    public function copy_block($id_quiz, $oldblock) {
-        //Copy and create new block with old block
-        $block = new Block();
-        $block->id_user = $oldblock->id_user;
-        $block->id_quiz = $id_quiz;
-        $block->name = $oldblock->name;
-        $block->question_index = NULL;
-        $block->save();
-
-        echo "Bloco antigo foi copiado para o id:".$block->id;
-        echo "<hr>";
-        
-        //Updating index from new quiz
-        $newquiz = Quiz::find($id_quiz);
-        if($newquiz->block_index != NULL) {
-            $indexes = explode(',', $newquiz->block_index);
-            array_push($indexes, $block->id);
-            DB::table('quizzes')
-            ->where('id', $newquiz->id)
-            ->update(['block_index' => implode(",", $indexes)]); 
-        }
-        else {
-            DB::table('quizzes')
-            ->where('id', $newquiz->id)
-            ->update(['block_index' => $block->id]);  
-        }
-
-        // Call function to copy questions
-        $indexes_qest = explode(',', $oldblock->question_index);
-        foreach($indexes_qest as $index_qest) {
-            $oldquestion = Question::find($index_qest);
-            QuizController::copy_question($block->id, $oldquestion);
-        }
-        return true;
-    }
-
-    public function copy_question($id_block, $oldquestion) {
-        // Creating a new question with the new block id
-        $question = new Question();
-        $question->id_block = $id_block; // new block id send from copy_block
-        $question->question = $oldquestion->question;
-        $question->type = $oldquestion->type;
-        $question->save();
-
-        // 
-        if($question->type == 2) {
-            //selecting choices to move to new question
-            $choice = DB::table('multiple_choices')->where('id_question', $oldquestion->id)->first();
-            //Creating choices base on oldquestion to new question
-            DB::table('multiple_choices')->insert(
-                ['id_question' => $question->id, 'choices' => $choice->choices]
-            );
-        }
-        // Adding the new questions ids to question block indexes
-        $block = Block::find($id_block);
-        if($block->question_index != NULL) {
-            $indexes = explode(',', $block->question_index);
-            array_push($indexes, $question->id);
-            DB::table('blocks')
-            ->where('id', $block->id)
-            ->update(['question_index' => implode(",", $indexes)]); 
-        }
-        else {
-            DB::table('blocks')
-            ->where('id', $block->id)
-            ->update(['question_index' => $question->id]); 
-        }
-        return true;
-    }
-
-    public function move($id, $id_group) {
-        $quiz = Quiz::find($id);
-
-        $newquiz = new Quiz();
-        $newquiz->id_user = $quiz->id_user;
-        $newquiz->id_group = $id_group; //moving to new group
-        $newquiz->name = $quiz->name;
-        $newquiz->status = 0;
-        $newquiz->block_index = NULL;
-        $newquiz->save();
-        //echo "id novo quiz e:".$newquiz->id;
-        //echo "<hr>";
-        $blocks = explode(',', $quiz->block_index);
-        foreach($blocks as $id_block) {
-            $block = Block::find($id_block);
-            //echo "Bloco antigo id:".$id_block;
-            //echo "<hr>";
-            QuizController::copy_block($newquiz->id, $block);
-        }
-
-    }
 
 }

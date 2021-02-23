@@ -5,7 +5,7 @@
 
 @php
 	$blocks_quiz = $block_model::where('id_quiz', $quiz->id)->get();
-	$groups = $group_control::groups_user(Auth::id());
+	$groups = $group_control::get_own_and_included_groups(Auth::id());
 @endphp
 
 <html>
@@ -98,8 +98,8 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#e" onclick="activaTab('e')" data-toggle="tab">
-							Gerar Relatorio
+						<a class="nav-link" href="{{ route('quiz.export.get', $quiz->id) }}" >
+							Exportar Avaliacoes
 						</a>
 					</li>
 					<li class="nav-item">
@@ -110,6 +110,11 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('patient.search.get', $quiz->id) }}">
 							Avaliar Paciente
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('quiz.chart.get', $quiz->id) }}">
+							Grafico de Dados
 						</a>
 					</li>
 

@@ -3,10 +3,7 @@
 @inject('group_control', 'App\Http\Controllers\GroupController')
 
 @php
-	$groups = $group_model::where('id_user', Auth::id())->get();
-	$included_groups = $group_control->included_groups(Auth::id());
-	$categories = $group_control->all_categories();
-	$included_categories = $group_control->included_categories(); //categories when user is included in group
+	$groups = $group_control::get_own_and_included_groups(Auth::id());
 
 @endphp
 

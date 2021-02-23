@@ -90,7 +90,7 @@ class QuestionController extends Controller
         return redirect()->back();
     }
 
-    public function question_choices($id_question) {
+    public static function question_choices($id_question) {
         $choices = DB::table('multiple_choices')->where([
             ['id_question', '=', $id_question]
         ])->first();
@@ -159,6 +159,19 @@ class QuestionController extends Controller
         return view('question.edit', compact('block', 'question')); 
     }
 
+    public static function get_choice_by_index($id, $idx) {
+        $choices = DB::table('multiple_choices')
+        ->where('id_question', $id)
+        ->first();
+        $exploded = explode(',', $choices->choices);
+        if($idx < count($exploded)) {
+            return $exploded[$idx];
+        }
+        else {
+            return NULL;
+        }
+    }
+
     public function edit_post(Request $request) {
         $block = Block::find($request->id_block);
        
@@ -196,6 +209,7 @@ class QuestionController extends Controller
         $block = Block::find($question->id_block);
         return view('question.edit', compact('block', 'question')); 
     }
+
 
     public function update_index($id_question, $type) {
         $question = Question::find($id_question);

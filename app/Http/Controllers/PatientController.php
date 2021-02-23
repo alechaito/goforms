@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Patient;
 use App\Quiz;
 use App\Block;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\DB;  
 
 class PatientController extends Controller
@@ -40,19 +41,25 @@ class PatientController extends Controller
             ->join('questions', 'questions.id_block', '=', 'blocks.id')
             ->where('id_quiz', $request->id_quiz)
             ->get();
-        
+
         // inserting values in database based on input fields
         foreach($infos as $info) {
-            DB::table('evaluates')->insert(
-                [
-                    'block_name' => $info->name, 
-                    'question_name' => $info->question, 
-                    'question_type' => $info->type,
-                    'question_response' => $request->input($info->id),
-                    'patient_id' => $request->id_patient,
-                    'quiz_id' => $request->id_quiz
-                ]
-            );
+            $response = $request->input($info->id);
+            if($response != NULL) {
+                if($info->type == 2 ) {
+                    $choices = QuestionController::question_choices($info->id);
+                    $response = $choices[$response];
+                }
+                DB::table('evaluates')->insert(
+                    [
+                        'question_id' => $info->id, 
+                        'question_name' => $info->question, 
+                        'question_response' => $response,
+                        'patient_id' => $request->id_patient,
+                        'quiz_id' => $request->id_quiz
+                    ]
+                );
+            }
         }
         return view('quiz.view', compact('quiz')); 
     }

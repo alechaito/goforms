@@ -3,13 +3,7 @@
 @inject('group_control', 'App\Http\Controllers\GroupController')
 
 @php
-	$groups = $group_control::groups_user(Auth::id());
-	
-	//$groups = $group_model::where('id_user', Auth::id())->get();
-	//$included_groups = $group_control->included_groups(Auth::id());
-	$categories = $group_control->all_categories();
-	$included_categories = $group_control->included_categories(); //categories when user is included in group
-
+	$groups = $group_control::get_own_and_included_groups(Auth::id());
 @endphp
 
 <html>
@@ -270,25 +264,6 @@ function delete_group(data) {
 		window.location.reload(true); 
 	}
 }
-
-$(document).ready(function() {
-	$('#select-all-groups').click(function () {    
-		$('input.delete-group:checkbox').prop('checked', true);    
-	});
-	 
-
-	$('#delete-all-groups').click(function () {    
-		if(confirm('Tem certeza que deseja apagar todos os grupos selecionados e seus conteudos?')) {
-			var checkeds = $('.delete-group:checkbox:checked');
-			var i;
-			var ids = "";
-			for (i = 0; i < checkeds.length; i++) {
-				ids += checkeds[i].value + "-";
-			}
-			window.location.replace("/group/deleteall/"+ids);
-		}
- 	});
-});
 
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()

@@ -26,7 +26,7 @@ class GroupController extends Controller
         Role 2 - patient
         */
         DB::table('group_participants')->insert(
-            ['id_group' => $group->id, 'id_participant' => $group->id_user, 'level' => Auth::User()->role]
+            ['id_group' => $group->id, 'id_participant' => $group->id_user]
         );
 
         return redirect()->back();    
@@ -61,38 +61,15 @@ class GroupController extends Controller
         // find group participants and delete
         DB::table('group_participants')->where('id_group', $id)->delete();
 
-        //return redirect()->back();
-    }
-
-    public function delete_all($ids) {
-        $indexes = explode('-', $ids);
-        foreach($indexes as $idx) {
-            GroupController::delete($idx);
-        }
-        return redirect()->back();
+        return view('home'); 
     }
 
     public function delete_participant($id) {
         $x = DB::table('group_participants')
         ->where('id', $id)
         ->delete();
-        var_dump($x);
-        //return redirect()->back();
+        return view('home'); 
     }  
-
-    public function insert_participant($id_group, $id_participant, $id_role) {
-        $participant = DB::table('group_participants')
-        ->where('id_group', $id_group)
-        ->where('id_participant', $id_participant)
-        ->where('role', $id_role)->first();
-        
-        if($participant == NULL) {
-            DB::table('group_participants')->insert(
-                ['id_group' => $id_group, 'id_participant' => $id_participant, 'role' => $id_role]
-            );
-        }
-        return redirect()->back();
-    }
 
     public static function quizzes($id_group) {
         return DB::table('quizzes')
@@ -193,35 +170,8 @@ class GroupController extends Controller
         return $group->id_user;
     }
 
-    public function all_categories() {
-        $categories = DB::table('categories')
-        ->where('id_user', Auth::id())
-        ->orderByRaw('name ASC')->get();
-        return $categories;
-    }
 
-    public function included_categories() {
-        //Included in a group and needs to get categories
-        $participants = DB::table('group_participants')
-        ->where('id_participant', Auth::id())->get();
-
-        $categories = array();
-
-        foreach($participants as $participant) {
-            $id_owner = GroupController::get_owner($participant->id_group);
-            $categorys = DB::table('categories')
-            ->where('id_user', $id_owner)
-            ->orderByRaw('name ASC')->get()->toArray();
-            if($categorys != NULL and $id_owner != Auth::id()) {
-                foreach($categorys as $category) {
-                    array_push($categories, $category); 
-                }
-            }
-        }
-        return $categories;
-    }
-
-    public static function groups_user($id_user) {
+    public static function get_own_and_included_groups($id_user) {
         $groups_all = array();
 
         $group_includeds = DB::table('group_participants')

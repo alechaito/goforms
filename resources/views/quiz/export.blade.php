@@ -4,7 +4,7 @@
 @inject('group_control', 'App\Http\Controllers\GroupController')
 
 @php
-	$blocks_quiz = $block_model::where('id_quiz', $quiz->id)->get();
+	$blocks = $block_model::where('id_quiz', $quiz->id)->get();
 	$groups = $group_control::get_own_and_included_groups(Auth::id());
 @endphp
 
@@ -98,8 +98,8 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ route('quiz.export.get', $quiz->id) }}" >
-							Exportar Avaliacoes
+						<a class="nav-link" href="#e" onclick="activaTab('e')" data-toggle="tab">
+							Gerar Relatorio
 						</a>
 					</li>
 					<li class="nav-item">
@@ -115,24 +115,14 @@
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h2 class="h2">
-					Editar Questionario
+					Exportar Avaliacoes
 					<a href="{{ url()->previous() }}" class="btn btn-secondary">Voltar</a>
 				</h2>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6">
-					<form method="POST" action="{{ route('quiz.edit.post') }}">
-						@csrf
-						<label>Nome </label>
-						<div class="form-group">
-							<input type="text" name="name" value="{{$quiz->name}}" class="form-control">
-							<input type="hidden" name="id_quiz" value="{{$quiz->id}}">
-						</div>
-						<div class="text-right">
-							<button type="submit" class="btn btn-primary">Atualizar</button>
-						</div>
-					</form>
+					<span data-href="{{route('quiz.exportcsv.get', $quiz->id)}}" id="export" class="btn btn-success btn-sm" onclick="exportEvaluate(event.target);">Exportar CSV</span>
 				</div>
 			</div>
 			
@@ -143,7 +133,12 @@
 
 
 
-
+<script>
+   function exportEvaluate(_this) {
+      let _url = $(_this).data('href');
+      window.location.href = _url;
+   }
+</script>
 
 
 
