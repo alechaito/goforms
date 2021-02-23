@@ -18,7 +18,7 @@ Este projeto pretende auxiliar pesquisas de campo e coleta de dados, criando for
         * Inserir [x]
         * Editar [x]
         * Excluir [x]
-        * Analisar Dados - Machine Learning [ ]
+        * Graficos dos Dados [x]
     
     * Blocos
         * Inserir [x]
@@ -30,17 +30,17 @@ Este projeto pretende auxiliar pesquisas de campo e coleta de dados, criando for
         * Excluir [x]
 * Pacientes
     * Inserir [x]
-    * Avaliar [X]
+    * Avaliar [x]
     * Buscar [x]
 * Usuarios
-    * Inserir [X]
-    * Excluir [X]
-    * Buscar [X]
+    * Inserir [x]
+    * Excluir [x]
+    * Buscar [x]
 * Participantes
-    * Inserir [X]
-    * Excluir [X]
-    * Adicionar a um Grupo [ ]
-    * Listar Grupos [ ]
+    * Inserir [x]
+    * Excluir [x]
+    * Adicionar a um Grupo [x]
+    * Listar Grupos [x]
 
 
 
