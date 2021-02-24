@@ -121,7 +121,11 @@
 					@endphp
 					<div id="move-{{$block->id}}" class="row mt-3 mb-3">
 						<div class="col-md-12">
-							
+							@php
+								try {
+
+								
+							@endphp
 							@foreach($indexes_question as $index_question)
 								@php
 									$question = DB::table('questions')->where('id', $index_question)->first();
@@ -182,6 +186,9 @@
 								@endphp
 							@endforeach
 							@php
+								} catch (Exception $e) {
+							
+								}
 								$index_az += 1
 							@endphp
 						</div>
