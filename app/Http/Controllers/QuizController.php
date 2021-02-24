@@ -38,127 +38,58 @@ class QuizController extends Controller
         return view('quiz.edit', compact('quiz')); 
     } 
 
-    public function chart_get($id_quiz) {
-        $quiz = Quiz::find($id_quiz);
-        return view('quiz.chart', compact('quiz'));   
-        #$result = QuizController::count_data_text($id_quiz);
-    }
+    public function chart_get($id) {
+        $quiz = Quiz::find($id);
+        $blocks = array();
 
-    public function get_data_multiple_choices($id_quiz) {
-        return DB::table('quizzes')
-        ->join('blocks', 'blocks.id_quiz', '=', 'quizzes.id')
-        ->join('questions', 'questions.id_block', '=', 'blocks.id')
-        ->join('multiple_choices', 'multiple_choices.id_question', '=', 'questions.id')
-        ->where('quizzes.id', $id_quiz)
-        ->where('questions.type', 2)
-        ->get();
-    }
+        // Getting blocks from quiz
+        if($quiz->block_index != NULL) {
+            $indexes_block = explode(',', $quiz->block_index);
+            foreach($indexes_block as $idx) {
+                $block = Block::find($idx);
+                if($block != NULL) {
 
-    public function get_data_text($id_quiz) {
-        return DB::table('quizzes')
-        ->join('blocks', 'blocks.id_quiz', '=', 'quizzes.id')
-        ->join('questions', 'questions.id_block', '=', 'blocks.id')
-        ->where('quizzes.id', $id_quiz)
-        ->get();
-    }
-
-    public function count_data_text($id_quiz) {
-        $datas = QuizController::get_data_text($id_quiz);
-        $stack = array();
-
-        foreach($datas as $data) {
-            if($data->type == 1 or $data->type == 3) {
-                $choices = DB::table('evaluates')
-                ->select('question_response')
-                ->where('question_id', $data->id)
-                ->distinct()
-                ->get();
-                $qest_data_aux = array();
-                foreach($choices as $choice) {
-                    $count = DB::table('evaluates')
-                    ->where('question_id', $data->id)
-                    ->where('question_response', $choice->question_response)
-                    ->count();
-                    array_push($qest_data_aux, array(
-                            'question' => $data->question, 
-                            'id_question' => $data->id, 
-                            'choice' => $choice->question_response, 
-                            'total' => $count
-                        )
-                    );
+                    array_push($blocks, $block);
                 }
-                array_push($stack, $qest_data_aux);
             }
         }
-        return $stack;
+
+        return view('quiz.chart', compact('quiz', 'blocks')); 
     }
 
-    public function count_data_multiple_choices($id_quiz) {
-        $datas = QuizController::get_data_multiple_choices($id_quiz);
+    public function get_data_chart($id_quiz,  $id_question) {
+        return DB::table('quizzes')
+        ->join('blocks', 'blocks.id_quiz', '=', 'quizzes.id')
+        ->join('questions', 'questions.id_block', '=', 'blocks.id')
+        ->where('quizzes.id', $id_quiz)
+        ->where('questions.id',  $id_question)
+        ->first();
+    }
+
+    public function count_data_chart($id_quiz, $id_question) {
+        $data = QuizController::get_data_chart($id_quiz,  $id_question);
         $stack = array();
+   
+        $keys = DB::table('evaluates')
+        ->select('question_response')
+        ->where('question_id', $data->id)
+        ->distinct()
+        ->get(); # [a,b,c]
 
-        foreach($datas as $data) {
-            $choices = QuestionController::question_choices($data->id_question);
-            $qest_data_aux = array();
-            foreach($choices as $choice) {
-                $count = DB::table('evaluates')
-                ->where('question_id', $data->id_question)
-                ->where('question_response', $choice)
-                ->count();
-                array_push($qest_data_aux, array(
-                        'question' => $data->question, 
-                        'id_question' => $data->id_question, 
-                        'choice' => $choice, 
-                        'total' => $count
-                    )
-                );
-            }
-            array_push($stack, $qest_data_aux);
+        $x_axis = array();
+        $y_axis = array();
+        foreach($keys as $key) {
+            $count = DB::table('evaluates')
+            ->where('question_id', $data->id)
+            ->where('question_response', $key->question_response)
+            ->count();
+            array_push($x_axis, $key->question_response);
+            array_push($y_axis, $count);
         }
-        return $stack;
+        
+        return array($x_axis, $y_axis);
     }
 
-    public function make_data_for_choice($data) {
-        $opts = array();
-        $totals = array();
-        foreach($data as $each) {
-            $opt = $each['choice'];
-            $total = $each['total'];
-            array_push($opts, $opt);
-            array_push($totals, $total);
-        }
-        $totals = json_encode($totals);
-        $graph_key = $data[0]['id_question'];
-        $question = $data[0]['question'];
-
-        return array($totals, $graph_key, $question, $opts);
-    }
-
-    public function make_data_for_text($data) {
-        $opts = array();
-        $totals = array();
-        foreach($data as $each) {
-            $opt = $each['choice'];
-            $total = $each['total'];
-            array_push($opts, $opt);
-            array_push($totals, $total);
-        }
-        $totals = json_encode($totals);
-        $graph_key = $data[0]['id_question'];
-        $question = $data[0]['question'];
-
-        return array($totals, $graph_key, $question, $opts);
-    }
-
-
-    public function chart_get_data($id_quiz) {
-        return DB::table('evaluates')
-        ->join('patients', 'evaluates.patient_id', '=', 'patients.id')
-        ->where('quiz_id', $id_quiz)
-        ->select('patient_id', 'age', 'sex')
-        ->distinct('patient_id')
-        ->get();
-    }
 
     public function export_csv($id_quiz){
         $evaluates = DB::table('evaluates')->where('quiz_id', $id_quiz)->get();
