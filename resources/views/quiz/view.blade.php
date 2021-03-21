@@ -94,12 +94,12 @@
 					
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('quiz.view.get', $quiz->id) }}">
-							Blocos e Questoes
+							Blocos e Questões
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('quiz.export.get', $quiz->id) }}" >
-							Exportar Avaliacoes
+							Exportar Avaliações
 						</a>
 					</li>
 					<li class="nav-item">
@@ -114,7 +114,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('quiz.chart.get', $quiz->id) }}">
-							Grafico de Dados
+							Gráfico de Dados
 						</a>
 					</li>
 
@@ -141,12 +141,12 @@
 						</div>
 					@endif
 					<div class="alert alert-primary" role="alert">
-						Este questionario possui um total de {{sizeof($blocks_quiz)}} blocos.
+						Este questionário possui um total de {{sizeof($blocks_quiz)}} blocos.
 					</div>
 				</div>
 				<div class="col-md-6 text-right">
 					<a href="{{route('quiz.preview.get', $quiz->id)}}">
-						<button type="submit" class="btn btn-secondary">Pre-Visualizar</button>
+						<button type="submit" class="btn btn-secondary">Pré-Visualizar</button>
 					</a>
 					<a href="#" data-toggle="modal" data-target="#modal-create-block">
 						<button type="submit" class="btn btn-secondary">Adicionar Bloco</button>
@@ -208,7 +208,7 @@
 									
 									<a href="{{ route('question.create.get', $block->id) }}">
 										<button type="button" class="btn btn-secondary">
-											Adicionar Questao
+											Adicionar Questão
 										</button>
 									</a>
 									

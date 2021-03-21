@@ -93,7 +93,7 @@
 
 					<li class="nav-item">
 						<a class="nav-link" href="#a" onclick="activaTab('a')">
-							Listar Questionarios
+							Listar Questionários
 						</a>
 					</li>
 					<li class="nav-item">
@@ -132,7 +132,7 @@
 						<tr>
 							<th width="50%">Nome</th>
 							<th width="40%">Papel</th>
-							<th>Acoes</th>
+							<th>Ações</th>
 						</tr>
 					</thead>
 				</table>
@@ -146,7 +146,7 @@
 			<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Incluir Usuario</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Incluir Usuário</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -179,7 +179,7 @@
 			<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Novo Questionario</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Novo Questionário</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -187,7 +187,7 @@
 				<div class="modal-body">
 					<form method="POST" action="{{ route('quiz.create.post') }}">
 						@csrf
-					<label>Nome de referencia </label>
+					<label>Nome</label>
 					<div class="form-group">
 						<input type="text" name="name" placeholder="questionario exemplo" class="form-control">
 					</div>

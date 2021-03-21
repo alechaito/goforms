@@ -116,7 +116,7 @@
 						
 						<a href="{{ route('question.create.get', $block->id) }}">
 							<button type="button" class="btn btn-secondary">
-								Adicionar Questao
+								Adicionar Questão
 							</button>
 						</a>
 						
@@ -130,8 +130,8 @@
 								<tr>
 									<th scope="col"></th>
 									<th scope="col"></th>
-									<th scope="col">Questao</th>
-									<th scope="col">Acao</th>
+									<th scope="col">Questão</th>
+									<th scope="col">Ação</th>
 									<th scope="col">Mover</th>
 								</tr>
 							</thead>
@@ -185,7 +185,7 @@
 				</br>
 				<div class="row">
 					<div class="col-md-12">
-						<button id="select-all" type="button" class="btn btn-secondary">Selecionar Todas Questoes</button>	
+						<button id="select-all" type="button" class="btn btn-secondary">Selecionar Todas Questões</button>	
 					</div>
 				</div>
 				</br>

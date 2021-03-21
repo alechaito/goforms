@@ -112,7 +112,7 @@
 				<div class="row" style="margin-bottom:16px;">
 					<div class="col-md-12">
 						<div class="text-right">
-							<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modal-create-quiz">Novo Questionario</button>
+							<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#modal-create-quiz">Novo Questionário</button>
 						</div>
 					</div>
 				</div>
@@ -125,7 +125,7 @@
 									<th scope="col">
 									</th>
 									<th scope="col">Nome</th>
-									<th scope="col">Acoes</th>
+									<th scope="col">Ações</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -176,7 +176,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<button id="select-all" type="button" class="btn btn-secondary">Selecionar Todos Questionarios</button>	
+						<button id="select-all" type="button" class="btn btn-secondary">Selecionar Todos Questionários</button>	
 					</div>
 				</div>
 				</br>
@@ -212,7 +212,7 @@
 							<thead>
 								<tr>
 									<th width="50%">Nome</th>
-									<th>Acoes</th>
+									<th>Ações</th>
 								</tr>
 							</thead>
 						</table>
@@ -228,7 +228,7 @@
 			<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Incluir Usuario</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Incluir Usuário</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -261,7 +261,7 @@
 			<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Novo Questionario</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Novo Questionário</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -269,7 +269,7 @@
 				<div class="modal-body">
 					<form method="POST" action="{{ route('quiz.create.post') }}">
 						@csrf
-					<label>Nome de referencia </label>
+					<label>Nome</label>
 					<div class="form-group">
 						<input type="text" name="name" placeholder="questionario exemplo" class="form-control">
 					</div>

@@ -188,7 +188,7 @@
 							<input type="hidden" id="id-group" name="id_group" class="form-control">
 						</div>
 						<div class="form-group">
-							<label>Descricao</label>
+							<label>Descrição</label>
 							<textarea class="form-control" id="change-resume" name="resume" rows="1"></textarea>
 						</div>
 					</div>
@@ -234,7 +234,7 @@
 						<input type="text" name="name" class="form-control">
 					</div>
 					<div class="form-group">
-						<label>Descricao</label>
+						<label>Descrição</label>
 						<textarea class="form-control" name="resume" rows="1"></textarea>
 					</div>
 				</div>

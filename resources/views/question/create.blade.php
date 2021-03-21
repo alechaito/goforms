@@ -42,7 +42,7 @@
 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<h1 class="h2">
-				{{$block->name}} - Adicionar Questao
+				{{$block->name}} - Adicionar Questão
 				<a href="{{ url()->previous() }}" class="btn btn-secondary">Voltar</a>
 			</h1>
 		</div>
@@ -53,9 +53,9 @@
 				<hr>
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link active" id="v-pills-a-tab" data-toggle="pill" href="#v-pills-a" role="tab" aria-controls="v-pills-a" aria-selected="true">Resposta curta</a>
-					<a class="nav-link" id="v-pills-b-tab" data-toggle="pill" href="#v-pills-b" role="tab" aria-controls="v-pills-b" aria-selected="false">Multipla escolha</a>
-					<a class="nav-link" id="v-pills-c-tab" data-toggle="pill" href="#v-pills-c" role="tab" aria-controls="v-pills-c" aria-selected="false">Numerico</a>
-					<a class="nav-link" id="v-pills-d-tab" data-toggle="pill" href="#v-pills-d" role="tab" aria-controls="v-pills-d" aria-selected="false">Sim/Nao</a>
+					<a class="nav-link" id="v-pills-b-tab" data-toggle="pill" href="#v-pills-b" role="tab" aria-controls="v-pills-b" aria-selected="false">Múltipla escolha</a>
+					<a class="nav-link" id="v-pills-c-tab" data-toggle="pill" href="#v-pills-c" role="tab" aria-controls="v-pills-c" aria-selected="false">Numérico</a>
+					<a class="nav-link" id="v-pills-d-tab" data-toggle="pill" href="#v-pills-d" role="tab" aria-controls="v-pills-d" aria-selected="false">Sim/Não</a>
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -67,7 +67,7 @@
 					<form method="POST" action="{{ route('question.create.post') }}">
 						@csrf
 						<div class="form-group">
-							<label>Texto da Questao </label>
+							<label>Texto da Questão </label>
 							<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
 						</div>
 						<input type="hidden" name="type" value="1"/>
@@ -89,10 +89,10 @@
 					<form method="POST" action="{{ route('question.create.post') }}">
 						@csrf
 						<div class="form-group">
-							<label>Texto da Questao </label>
+							<label>Texto da Questão </label>
 							<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
 						</div>
-						<label>Opcoes (separado por virgula) </label>
+						<label>Opções (separado por vírgula) </label>
 						<div class="form-group">
 							<input type="text" name="choices" placeholder="leve, moderado, grave" class="form-control">
 						</div>
@@ -115,7 +115,7 @@
 					<form method="POST" action="{{ route('question.create.post') }}">
 						@csrf
 						<div class="form-group">
-							<label>Texto da Questao </label>
+							<label>Texto da Questão </label>
 							<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
 						</div>
 						<input type="hidden" name="type" value="3"/>
@@ -132,12 +132,12 @@
 				</div>
 				<div class="tab-pane fade" id="v-pills-d" role="tabpanel" aria-labelledby="v-pills-d-tab">
 					<div class="alert alert-info" role="alert">
-						Uma questao simples de multipla escolha com apenas duas opcoes "sim" ou "nao".
+						Uma questão simples de multipla escolha com apenas duas Opções "sim" ou "não".
 					</div>
 					<form method="POST" action="{{ route('question.create.post') }}">
 						@csrf
 						<div class="form-group">
-							<label>Texto da Questao </label>
+							<label>Texto da Questão </label>
 							<input type="text" name="question" placeholder="questionario exemplo" class="form-control">
 						</div>
 						<input type="hidden" name="type" value="4"/>

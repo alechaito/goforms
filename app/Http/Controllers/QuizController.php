@@ -92,28 +92,33 @@ class QuizController extends Controller
 
 
     public function export_csv($id_quiz){
-        $evaluates = DB::table('evaluates')->where('quiz_id', $id_quiz)->get();
+        $evaluates = DB::table('evaluates')
+        ->where('quiz_id', $id_quiz)
+        ->distinct()
+        ->get();
+
         $filename = 'avaliacoes.csv';
 
-        $headers = array(
+        $headers = [
             "Content-type"        => "text/csv",
             "Content-Disposition" => "attachment; filename=$filename",
             "Pragma"              => "no-cache",
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
             "Expires"             => "0"
-        );
+        ];
 
-        $columns = array('Questao', 'Resposta');
-
-        $callback = function() use($evaluates, $columns) {
+        $callback = function() use($evaluates) {
+            $columns = ['Paciente', 'Questao', 'Resposta'];
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
-            foreach ($evaluates as $evaluate) {
-                $row['Questao']  = $evaluate->question_name;
-                $row['Resposta'] = $evaluate->question_response;;
-
-                fputcsv($file, array($row['Questao'], $row['Resposta']));
+            foreach($evaluates as $value) {
+                $patient = Patient::find($value->patient_id);
+                fputcsv($file, [
+                    $patient->name,
+                    $value->question_name,
+                    $value->question_response
+                ]);
             }
 
             fclose($file);

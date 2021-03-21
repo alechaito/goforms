@@ -58,7 +58,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-					<h6>Informacoes do Paciente</h6>
+					<h6>Informações do Paciente</h6>
 					<table>
 						<tr>
 							<td>

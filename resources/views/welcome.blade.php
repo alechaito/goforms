@@ -83,6 +83,9 @@
                 <div class="title m-b-md">
                     GO Forms
                 </div>
+                <p class="text">
+                Ferramenta multi responsiva para criação de formulários com foco em pesquisas de campo e análise de dados.
+                </p>
 
             </div>
         </div>
