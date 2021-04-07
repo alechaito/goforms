@@ -1,3 +1,6 @@
+@inject('QuestionController', 'App\Http\Controllers\QuestionController')
+
+
 <html>
 <head>
 <link href="{{ URL::asset('/css/dashboard.css') }}" rel="stylesheet">
@@ -26,12 +29,7 @@
 				<ul class="nav flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="{{route('home')}}">
-							Inicio
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('home')}}">
-							Projetos
+							Voltar
 						</a>
 					</li>
 				</ul>
@@ -49,7 +47,7 @@
 
 		<div class="row">
 			<div class="col-md-3">
-				<h6>Tipos de Questoes</h6>
+				<h6>Tipos de Questões</h6>
 				<hr>
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link active" id="v-pills-a-tab" data-toggle="pill" href="#v-pills-a" role="tab" aria-controls="v-pills-a" aria-selected="true">Resposta curta</a>
@@ -154,7 +152,33 @@
 				</div>
 				</div>
 			</div>
+
 		</div>
+		<div class="row">
+			<h3>Você acabou de criar...</h3>
+			</hr>
+		</div>
+		<div class="row">
+			</hr>
+			@if($question ?? '')
+				@php
+					$preview = $QuestionController->preview($question->id);
+				@endphp
+				
+				<div class="col-md-6">
+					@php
+						echo $preview['question'];
+					@endphp
+				</div>
+				<div class="col-md-6">
+					@php
+						echo $preview['content'];
+					@endphp
+				</div>
+					
+				
+			@endif
+		</div> <!--FIM ROW-->
 	</div>
 
 	</main>

@@ -49,24 +49,18 @@
 							<span> <i class="fa fa-users"></i> Projetos </span>
 						</a>
 					</h6>
-					<div class="collapse" id="collapse-groups">
-						@foreach($groups as $group)
-							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
-									{{$group->name}}
-								</a>
-							</li>
-						@endforeach
+					
+					@foreach($groups as $group)
+						<li class="nav-item">
+							<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
+								{{$group->name}}
+							</a>
+						</li>
+					@endforeach
+
+					<div style="border-bottom:1px solid #CCCCCC; width:100%;">
 					</div>
 
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span> <i class="fa fa-user-plus"></i> Cadastrar</span>
-					</h6>
-					<li class="nav-item">
-						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create.get')}}">
-							Paciente
-						</a>
-					</li>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span><i class="fa fa-plus"></i> Outros</span>
@@ -77,8 +71,13 @@
 						</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" style="font-size:15px;" href="{{route('patient.create.get')}}">
+							<i class="fa fa-user-plus"></i> Cadastrar Paciente
+						</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" style="font-size:15px;" href="{{route('user.edit.get')}}">
-							<i class="fa fa-user"></i> Editar Perfil
+							<i class="fa fa-user"></i> Configurações
 						</a>
 					</li>
 

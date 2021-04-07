@@ -27,12 +27,9 @@
 				<ul class="nav flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="{{route('home')}}">
-							Inicio
+							Voltar
 						</a>
 					</li>
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>Projetos</span>
-					</h6>
 				</ul>
 			</div>
 		</nav>

@@ -44,47 +44,49 @@
 				<ul class="nav flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="{{route('home')}}">
-							Inicio
+							Início
 						</a>
 					</li>
+
+
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<a data-toggle="collapse" href="#collapse-groups" aria-expanded="false" aria-controls="collapse-groups">
- 						
-							<span> <i class="fa fa-users"></i> Projetos </span>
-						</a>
+						<span> <i class="fa fa-users"></i> Projetos </span>
 					</h6>
-					<div class="collapse" id="collapse-groups">
-						@foreach($groups as $group)
-							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
-									{{$group->name}}
-								</a>
-							</li>
-						@endforeach
+
+					@foreach($groups as $group)
+						<li class="nav-item">
+							<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $group->id) }}">
+								{{$group->name}}
+							</a>
+						</li>
+					@endforeach
+					
+					<div style="border-bottom:1px solid #CCCCCC; width:100%;">
 					</div>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<a data-toggle="collapse" href="#collapse-blocks" aria-expanded="false" aria-controls="collapse-blocks">
- 							<span> <i class="fa fa-th-large"></i> Blocos</span>
-						</a>
+						<span> <i class="fa fa-th-large"></i> Blocos</span>
 					</h6>
-					<div class="collapse" id="collapse-blocks">
-						@if($quiz->block_index != NULL)
+
+					@if($quiz->block_index != NULL)
+						@php
+							$indexes_block = explode(',', $quiz->block_index);
+						@endphp
+						@foreach($indexes_block as $index_block)
 							@php
-								$indexes_block = explode(',', $quiz->block_index);
+								$block = $block_model::find($index_block);
 							@endphp
-							@foreach($indexes_block as $index_block)
-								@php
-									$block = $block_model::find($index_block);
-								@endphp
-								<li class="nav-item">
-									<a class="nav-link" href="{{ route('block.view.get', $block->id) }}">
-										<span data-feather="home"></span>
-										{{$block->name}}
-									</a>
-								</li>
-							@endforeach
-						@endif
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('block.view.get', $block->id) }}">
+									<span data-feather="home"></span>
+									{{$block->name}}
+								</a>
+							</li>
+						@endforeach
+					@endif
+
+
+					<div style="border-bottom:1px solid #CCCCCC; width:100%;">
 					</div>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

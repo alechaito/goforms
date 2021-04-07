@@ -59,7 +59,7 @@ class QuestionController extends Controller
             ->update(['question_index' => $question->id]); 
         }
         
-        return redirect()->back();
+        return view('question.create', compact('question', 'block')); 
     }
 
     public function delete($id) {

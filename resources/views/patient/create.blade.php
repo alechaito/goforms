@@ -27,7 +27,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('home') }}">
 							<span data-feather="home"></span>
-							Inicio
+							Voltar
 						</a>
 					</li>
 				</ul>

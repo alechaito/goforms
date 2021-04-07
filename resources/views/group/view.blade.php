@@ -50,36 +50,36 @@
 							Inicio
 						</a>
 					</li>
+
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<a data-toggle="collapse" href="#collapse-groups" aria-expanded="false" aria-controls="collapse-groups">
- 						
-							<span> <i class="fa fa-users"></i> Projetos </span>
-						</a>
+						<span> <i class="fa fa-users"></i> Projetos</span>
 					</h6>
-					<div class="collapse" id="collapse-groups">
-						@foreach($groups as $obj)
-							<li class="nav-item">
-								<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $obj->id) }}">
-									{{$obj->name}}
-								</a>
-							</li>
-						@endforeach
+
+
+					@foreach($groups as $obj)
+						<li class="nav-item">
+							<a class="nav-link" style="font-size:15px;" href="{{ route('group.view.get', $obj->id) }}">
+								{{$obj->name}}
+							</a>
+						</li>
+					@endforeach
+
+					<div style="border-bottom:1px solid #CCCCCC; width:100%;">
 					</div>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<a data-toggle="collapse" href="#collapse-quizzes" aria-expanded="false" aria-controls="collapse-quizzes">
-							<span> <i class="fa fa-arrow-right"></i> {{$group->name}}</span>
-						</a>
+						<span> <i class="fa fa-arrow-right"></i> {{$group->name}}</span>
 					</h6>
 					
-					<div class="collapse" id="collapse-quizzes">
-						@foreach($quizzes_group as $quiz)
-							<li class="nav-item">
-								<a class="nav-link" href="{{route('home')}}">
-									{{$quiz->name}}
-								</a>
-							</li>
-						@endforeach
+					@foreach($quizzes_group as $quiz)
+						<li class="nav-item">
+							<a class="nav-link" href="{{route('home')}}">
+								{{$quiz->name}}
+							</a>
+						</li>
+					@endforeach
+
+					<div style="border-bottom:1px solid #CCCCCC; width:100%;">
 					</div>
 
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
