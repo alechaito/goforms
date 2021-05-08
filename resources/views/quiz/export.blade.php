@@ -91,7 +91,6 @@
 						<span><span><i class="fa fa-file"></i> {{$quiz->name}}</span>
 					</h6>
 					
-					
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('quiz.view.get', $quiz->id) }}">
 							Blocos e Questoes
@@ -122,7 +121,9 @@
 
 			<div class="row">
 				<div class="col-md-6">
-					<span data-href="{{route('quiz.exportcsv.get', $quiz->id)}}" id="export" class="btn btn-success btn-sm" onclick="exportEvaluate(event.target);">Exportar CSV</span>
+					<span data-href="{{ route('quiz.exportcsv.get', [$quiz->id, 'csv']) }}" id="export" class="btn btn-success btn-sm" onclick="exportEvaluate(event.target);">Exportar CSV</span>
+					<span data-href="{{ route('quiz.exportcsv.get', [$quiz->id, 'xlsx']) }}" id="export" class="btn btn-success btn-sm" onclick="exportEvaluate(event.target);">Exportar XLSX</span>
+				
 				</div>
 			</div>
 			

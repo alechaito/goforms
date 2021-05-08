@@ -91,13 +91,18 @@ class QuizController extends Controller
     }
 
 
-    public function export_csv($id_quiz){
+    public function export_csv($id_quiz, $format){
         $evaluates = DB::table('evaluates')
         ->where('quiz_id', $id_quiz)
         ->distinct()
         ->get();
 
-        $filename = 'avaliacoes.csv';
+        if ($format == "xlsx") {
+            $filename = 'avaliacoes.xlsx';
+        }
+        else {
+            $filename = 'avaliacoes.csv';
+        }
 
         $headers = [
             "Content-type"        => "text/csv",

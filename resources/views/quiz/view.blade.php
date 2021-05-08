@@ -173,17 +173,17 @@
 							<div class="row">
 								<div class="col-md-6">
 										<input class="delete-block" type="checkbox" value="{{$block->id}}">
-										<a href="{{ route('block.view.get', $block->id) }}">
+										<a href="{{ route('block.view.get', $block->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar Bloco">
 											{{$block->name}} <i class="fa fa-eye"></i>
 										</a>
 									
 								</div>
 								<div class="col-md-6 text-right">
-									<a href="{{ route('block.preview.view', $block->id) }}">
+									<a href="{{ route('block.preview.view', $block->id) }}" data-toggle="tooltip" data-placement="bottom" title="Pre Visualizar Bloco">
 										<i class="fa fa-search" style="font-size:16px"></i>
 									</a>
 
-									<a href="{{ route('block.delete', $block->id) }}">
+									<a href="{{ route('block.delete', $block->id) }}" data-toggle="tooltip" data-placement="bottom" title="Apagar Bloco">
 										<i class="fa fa-times"></i>
 									</a>
 									
@@ -192,7 +192,7 @@
 										<input type="hidden" name="id_block" value="{{$block->id}}"/>
 										<input type="hidden" name="id_quiz" value="{{$quiz->id}}"/>
 										<input type="hidden" name="type" value="0"/>
-										<a href="#" onclick="document.getElementById('update-up-{{$block->id}}').submit();">
+										<a href="#" onclick="document.getElementById('update-up-{{$block->id}}').submit();" data-toggle="tooltip" data-placement="bottom" title="Mudar Posicao Bloco">
 											<i class="fa fa-arrow-up"></i>
 										</a>
 									</form>
@@ -201,7 +201,7 @@
 										<input type="hidden" name="id_block" value="{{$block->id}}"/>
 										<input type="hidden" name="id_quiz" value="{{$quiz->id}}"/>
 										<input type="hidden" name="type" value="1"/>
-										<a href="#" onclick="document.getElementById('update-down-{{$block->id}}').submit();">
+										<a href="#" onclick="document.getElementById('update-down-{{$block->id}}').submit();" data-toggle="tooltip" data-placement="bottom" title="Mudar Posicao Bloco">
 											<i class="fa fa-arrow-down"></i>
 										</a>
 									</form>
@@ -235,23 +235,23 @@
 													<tr>
 														<th width="5%" scope="row">{{$count}}</th>
 														<td width="70%">
-															<a href="{{ route('question.edit.get',  $question->id) }}">
+															<a href="{{ route('question.edit.get',  $question->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar Questao">
 																{{$question->question}} <i class="fa fa-eye"></i>
 															</a>
 														</td>
 														<td>
-															<a href="#" data-toggle="modal" data-target=".bd-example-modal-xl" data-id-question="{{$question->id}}">
+															<a href="#" data-toggle="modal" data-target=".bd-example-modal-xl" data-id-question="{{$question->id}}" data-toggle="tooltip" data-placement="bottom" title="Pre Visualizar Questao">
 																<i class="fa fa-search"></i>
 															</a>
-															<a href="{{route('question.delete', $question->id)}}">
+															<a href="{{route('question.delete', $question->id)}}" data-toggle="tooltip" data-placement="bottom" title="Apagar Questao">
 																<i class="fa fa-times"></i>
 															</a>
 														</td>
 														<td>
-															<a href="{{ route('question.index.update', [$question->id, 0]) }}">
+															<a href="{{ route('question.index.update', [$question->id, 0]) }}" data-toggle="tooltip" data-placement="bottom" title="Mudar Posicao Questao">
 																<i class="fa fa-arrow-up"></i>
 															</a>
-															<a href="{{ route('question.index.update', [$question->id, 1]) }}">
+															<a href="{{ route('question.index.update', [$question->id, 1]) }}" data-toggle="tooltip" data-placement="bottom" title="Mudar Posicao Questao">
 																<i class="fa fa-arrow-down"></i>
 															</a>
 														</td>

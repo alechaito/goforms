@@ -133,7 +133,7 @@
 								<tr>
 									<td><input class="delete-quiz" type="checkbox" value="{{$quiz->id}}"></td>
 									<td>
-										<a href="{{ route('quiz.view.get', $quiz->id) }}">
+										<a href="{{ route('quiz.view.get', $quiz->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar Questionario">
 											{{$quiz->name}} <i class="fa fa-eye"></i>
 										</a>
 										<ul>
@@ -146,7 +146,7 @@
 														$block = $block_model::find($index_block);
 													@endphp
 													<li style="color:#6c757d;"> 
-													<a href="{{ route('block.view.get', $block->id) }}">
+													<a href="{{ route('block.view.get', $block->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar Bloco">
 														{{$block->name}}
 													</li>
 												@endforeach
@@ -154,14 +154,14 @@
 										</ul>
 									</td>
 									<td>
-										<a href="{{ route('quiz.preview.get', $quiz->id) }}" style="text-decoration: none;">
+										<a href="{{ route('quiz.preview.get', $quiz->id) }}" style="text-decoration: none;" data-toggle="tooltip" data-placement="bottom" title="Pre Visualizar Questionario">
 											<i class="fa fa-search"></i>
 										</a>
 										<form id="quiz-delete-{{$quiz->id}}" style="display:inline;" method="POST" action="{{ route('quiz.delete.post') }}">
 											@csrf
 											<input type="hidden" name="id_quiz" value="{{$quiz->id}}"/>
 											<input type="hidden" name="id_group" value="{{$group->id}}"/>
-											<a href="#" onclick="document.getElementById('quiz-delete-{{$quiz->id}}').submit();">
+											<a href="#" onclick="document.getElementById('quiz-delete-{{$quiz->id}}').submit();" data-toggle="tooltip" data-placement="bottom" title="Apagar Questionario">
 												<i class="fa fa-times"></i>
 											</a>
 										</form>

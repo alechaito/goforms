@@ -59,7 +59,7 @@ Route::group(['prefix' => 'quiz', 'middleware' => ['auth']], function(){
     Route::get('/analyze/{id}', 'QuizController@analyze_get')->name('quiz.analyze.get');
     Route::get('/export/{id}', 'QuizController@export_get')->name('quiz.export.get');
     Route::get('/chart/{id}', 'QuizController@chart_get')->name('quiz.chart.get');
-    Route::get('/exportcsv/{id}', 'QuizController@export_csv')->name('quiz.exportcsv.get');
+    Route::get('/exportcsv/{id}/{format}', 'QuizController@export_csv')->name('quiz.exportcsv.get');
 
     Route::post('/changestatus', 'QuizController@changestatus')->name('quiz.changestatus.post');
     Route::post('/create', 'QuizController@create')->name('quiz.create.post');

@@ -124,10 +124,10 @@
 									<ul>
 										@foreach($quizzes as $quiz)
 											<li style="color:#6c757d;">
-												<a href="{{ route('quiz.view.get', $quiz->id) }}">
+												<a href="{{ route('quiz.view.get', $quiz->id) }}" data-toggle="tooltip" data-placement="bottom" title="Visualizar">
 													{{$quiz->name}} <i class="fa fa-eye"></i>
 												</a>
-												<a href="{{ route('quiz.edit.get', $quiz->id) }}">
+												<a href="{{ route('quiz.edit.get', $quiz->id) }}" data-toggle="tooltip" data-placement="bottom" title="Editar">
 													<i class="fa fa-cog"></i>
 												</a>
 											 </li>
